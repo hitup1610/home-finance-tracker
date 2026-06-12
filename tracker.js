@@ -1331,14 +1331,14 @@ function renderBob() {
             <td><code>${t.narration}</code></td>
             <td><strong>₹${t.amount.toLocaleString('en-IN')}</strong></td>
             <td>${t.description}</td>
-            <td class="action-buttons">
+            <td>
                 <button class="btn btn-secondary btn-sm" onclick="deleteBobTransaction('${t.id}')">
                     <i class="fa-solid fa-trash text-danger"></i>
                 </button>
-            </td>
                 <button class="btn btn-secondary btn-sm" onclick="openEditBobModal('${t.id}')">
                     <i class="fa-solid fa-edit text-info"></i>
                 </button>
+            </td>
         `;
         listBody.appendChild(row);
     });
@@ -2203,8 +2203,10 @@ function handleAddDailySubmit(event) {
 function openAddBobModal() {
     const modal = document.getElementById("modal-add-bob");
     document.getElementById("bob-form").reset();
+    currentBobEditId = null;
     const today = new Date().toISOString().split('T')[0];
     document.getElementById("bob-date").value = today;
+    document.getElementById("modal-add-bob-title").textContent = TRANSLATIONS[appState.lang].modalAddBob;
     modal.classList.add("active");
 }
 
