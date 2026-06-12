@@ -1342,14 +1342,14 @@ function renderBob() {
             <td><code>${t.narration}</code></td>
             <td><strong>₹${t.amount.toLocaleString('en-IN')}</strong></td>
             <td>${t.description}</td>
-            <td class="action-buttons">
+            <td>
                 <button class="btn btn-secondary btn-sm" onclick="deleteBobTransaction('${t.id}')">
                     <i class="fa-solid fa-trash text-danger"></i>
                 </button>
-            </td>
                 <button class="btn btn-secondary btn-sm" onclick="openEditBobModal('${t.id}')">
                     <i class="fa-solid fa-edit text-info"></i>
                 </button>
+            </td>
         `;
         listBody.appendChild(row);
     });
@@ -2249,7 +2249,8 @@ function openEditBobModal(id) {
     document.getElementById("bob-desc").value = transaction.description;
     
     currentBobEditId = id; // Set the ID for editing
-    document.getElementById("modal-add-bob-title").textContent = TRANSLATIONS[appState.lang].modalAddBob.replace("નવી", "એડિટ"); // Update modal title
+    const title = TRANSLATIONS[appState.lang].modalAddBob;
+    document.getElementById("modal-add-bob-title").textContent = appState.lang === "gu" ? title.replace("નવી", "એડિટ") : "Edit BOB Entry"; // Update modal title
     
     modal.classList.add("active");
 }
