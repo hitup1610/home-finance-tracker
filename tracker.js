@@ -1331,14 +1331,14 @@ function renderBob() {
             <td><code>${t.narration}</code></td>
             <td><strong>₹${t.amount.toLocaleString('en-IN')}</strong></td>
             <td>${t.description}</td>
-            <td>
+            <td class="action-buttons">
                 <button class="btn btn-secondary btn-sm" onclick="deleteBobTransaction('${t.id}')">
                     <i class="fa-solid fa-trash text-danger"></i>
                 </button>
+            </td>
                 <button class="btn btn-secondary btn-sm" onclick="openEditBobModal('${t.id}')">
                     <i class="fa-solid fa-edit text-info"></i>
                 </button>
-            </td>
         `;
         listBody.appendChild(row);
     });
