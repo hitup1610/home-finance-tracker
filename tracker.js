@@ -480,6 +480,17 @@ const DEFAULT_STATE = {
 // Global App State
 let appState = null;
 
+// Global variables to store the ID of the transaction being edited
+let currentRentEditId = null;
+let currentPropTaxEditId = null;
+let currentWaterTaxEditId = null;
+let currentTorrentEditId = null;
+let currentGasEditId = null;
+let currentUgvclEditId = null;
+let currentMilkEditId = null;
+let currentDailyEditId = null;
+let currentBobEditId = null;
+
 // Initialize State with Backward Compatibility and Migration
 function initApp() {
     const stored = localStorage.getItem("hitesh_home_finance_state");
@@ -2209,16 +2220,6 @@ function openAddBobModal() {
     document.getElementById("modal-add-bob-title").textContent = TRANSLATIONS[appState.lang].modalAddBob;
     modal.classList.add("active");
 }
-
-let currentRentEditId = null;
-let currentPropTaxEditId = null;
-let currentWaterTaxEditId = null;
-let currentTorrentEditId = null;
-let currentGasEditId = null;
-let currentUgvclEditId = null;
-let currentMilkEditId = null;
-let currentDailyEditId = null;
-let currentBobEditId = null;
 
 function openEditRentModal(id) {
     const modal = document.getElementById("modal-add-rent");
