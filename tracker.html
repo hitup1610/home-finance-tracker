@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ગૃહ-નાણા વ્યવસ્થાપક | Home Finance & Rent Manager</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="તમારા મકાનનું ભાડું, ડિપોઝિટ, ઘર વેરો, ગેસ બિલ, લાઈટ બિલ અને દૂધના બિલનો હિસાબ રાખવા માટેની વેબસાઈટ.">
+    <meta name="author" content="Hitesh Parmar">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="tracker.css">
+</head>
+<body class="lang-gu"> <!-- Default Language: Gujarati -->
+
+    <div class="dashboard-container">
+        
+        <!-- ==========================================
+             1. Sidebar Navigation (Desktop Mode)
+             ========================================== -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-brand">
+                    <span class="logo-icon">HN</span>
+                    <span class="sidebar-brand-name">
+                        Hiteshkumar N.<br>
+                        <span style="color: var(--primary-orange); font-size: 11px; text-transform: uppercase;" data-i18n="appName">ગૃહ-નાણા વ્યવસ્થાપક</span>
+                    </span>
+                </a>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-item active" data-tab="dashboard">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span data-i18n="navDashboard">ડેશબોર્ડ</span>
+                </div>
+                <div class="menu-item" data-tab="houses">
+                    <i class="fa-solid fa-house-user"></i>
+                    <span data-i18n="navHouses">૪ મકાન ભાડું</span>
+                </div>
+                <div class="menu-item" data-tab="taxes">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    <span data-i18n="navTaxes">ઘર-પાણી વેરો</span>
+                </div>
+                <div class="menu-item" data-tab="utilities">
+                    <i class="fa-solid fa-bolt-lightning"></i>
+                    <span data-i18n="navUtilities">લાઈટ-ગેસ બિલ</span>
+                </div>
+                <div class="menu-item" data-tab="milk">
+                    <i class="fa-solid fa-cow"></i>
+                    <span data-i18n="navMilk">દૂધનું બિલ</span>
+                </div>
+                <div class="menu-item" data-tab="daily">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span data-i18n="navDaily">રોજિંદા ખર્ચ</span>
+                </div>
+                <div class="menu-item" data-tab="bob">
+                    <i class="fa-solid fa-building-columns"></i>
+                    <span data-i18n="navBob">બીઓબી ખાતું</span>
+                </div>
+                <div class="menu-item" data-tab="backup">
+                    <i class="fa-solid fa-gears"></i>
+                    <span data-i18n="navBackup">બેકઅપ & સેટિંગ્સ</span>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <!-- Language Toggler -->
+                <div class="lang-toggle-container">
+                    <button class="lang-toggle-btn active" data-lang="gu">ગુજરાતી</button>
+                    <button class="lang-toggle-btn" data-lang="en">English</button>
+                </div>
+                <a href="index.html" style="font-size: 13px; text-align: center; color: rgba(255,255,255,0.6); hover: color:white;">
+                    <i class="fa-solid fa-arrow-left"></i> Main Site
+                </a>
+            </div>
+        </aside>
+
+        <!-- ==========================================
+             2. Sticky Bottom Navigation (Mobile Mode)
+             ========================================== -->
+        <nav class="mobile-bottom-nav">
+            <div class="mobile-nav-items">
+                <div class="mobile-nav-item active" data-tab="dashboard">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span data-i18n="navDashboard">ડેશબોર્ડ</span>
+                </div>
+                <div class="mobile-nav-item" data-tab="houses">
+                    <i class="fa-solid fa-house-user"></i>
+                    <span data-i18n="navHouses">ભાડું</span>
+                </div>
+                <div class="mobile-nav-item" data-tab="taxes">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    <span data-i18n="navTaxes">વેરા</span>
+                </div>
+                <div class="mobile-nav-item" data-tab="utilities">
+                    <i class="fa-solid fa-bolt-lightning"></i>
+                    <span data-i18n="navUtilities">બિલ</span>
+                </div>
+                <div class="mobile-nav-item" data-tab="milk">
+                    <i class="fa-solid fa-cow"></i>
+                    <span data-i18n="navMilk">દૂધ</span>
+                </div>
+                <div class="mobile-nav-item" data-tab="daily">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span data-i18n="navDaily">ખર્ચ</span>
+                </div>
+                <div class="mobile-nav-item" data-tab="bob">
+                    <i class="fa-solid fa-building-columns"></i>
+                    <span data-i18n="navBob">બીઓબી</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ==========================================
+             3. Main Content Container
+             ========================================== -->
+        <main class="dashboard-main">
+            
+            <!-- Dashboard Topbar Header -->
+            <header class="dashboard-header">
+                <div class="header-title-wrapper">
+                    <h2 id="view-title" data-i18n="welcomeMessage">નાણાકીય ડેશબોર્ડમાં આપનું સ્વાગત છે</h2>
+                    <p id="view-subtitle" data-i18n="dashboardSubtitle">તમામ આવક, ખર્ચ અને ભાડાની વિગતો એક જગ્યાએ.</p>
+                </div>
+                <div class="header-actions">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span id="current-date-display" style="font-weight: 600; font-size: 14px; color: var(--accent-blue);"></span>
+                        <button class="btn-icon-label btn-accent" onclick="openAddDailyModal()">
+                            <i class="fa-solid fa-plus"></i>
+                            <span data-i18n="addDailyBtn">નવો રોજિંદો ખર્ચ</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ==========================================
+                 TAB 1: Dashboard View
+                 ========================================== -->
+            <section id="dashboard-view" class="dashboard-view active">
+                
+                <!-- KPI Statistics Widgets -->
+                <div class="stats-grid">
+                    <div class="stat-card blue">
+                        <div class="stat-card-info">
+                            <span class="stat-card-title" data-i18n="kpiIncome">કુલ આવક (આ મહિને)</span>
+                            <span class="stat-card-amount" id="dashboard-income-amt">₹0</span>
+                            <span class="stat-card-subtitle">Rent + Other Income</span>
+                        </div>
+                        <div class="stat-card-icon">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card danger">
+                        <div class="stat-card-info">
+                            <span class="stat-card-title" data-i18n="kpiExpense">કુલ ખર્ચ (આ મહિને)</span>
+                            <span class="stat-card-amount" id="dashboard-expense-amt">₹0</span>
+                            <span class="stat-card-subtitle">Taxes + Bills + Milk + Daily</span>
+                        </div>
+                        <div class="stat-card-icon">
+                            <i class="fa-solid fa-arrow-trend-down"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card success">
+                        <div class="stat-card-info">
+                            <span class="stat-card-title" data-i18n="kpiRentReceived">મળેલ ભાડું</span>
+                            <span class="stat-card-amount" id="dashboard-rent-rec-amt">₹0</span>
+                            <span class="stat-card-subtitle">Collected Rent</span>
+                        </div>
+                        <div class="stat-card-icon">
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card warning">
+                        <div class="stat-card-info">
+                            <span class="stat-card-title" data-i18n="kpiRentPending">બાકી ભાડું</span>
+                            <span class="stat-card-amount" id="dashboard-rent-pend-amt">₹0</span>
+                            <span class="stat-card-subtitle">Pending Rent</span>
+                        </div>
+                        <div class="stat-card-icon">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-card orange">
+                        <div class="stat-card-info">
+                            <span class="stat-card-title" data-i18n="kpiDeposit">કુલ ડિપોઝિટ</span>
+                            <span class="stat-card-amount" id="dashboard-deposit-amt">₹0</span>
+                            <span class="stat-card-subtitle">Security Deposit Held</span>
+                        </div>
+                        <div class="stat-card-icon">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Graphs and Activities Section -->
+                <div class="overview-layout">
+                    
+                    <!-- Visual Chart Panel -->
+                    <div class="dashboard-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">
+                                <i class="fa-solid fa-chart-pie text-blue"></i>
+                                <span data-i18n="chartTitle">માસિક આવક વિરુદ્ધ ખર્ચ</span>
+                            </span>
+                        </div>
+                        
+                        <div class="visual-chart-container">
+                            <div class="chart-bar-wrapper">
+                                <div class="chart-bar-info">
+                                    <span data-i18n="incomeLabel">આવક (Income)</span>
+                                    <span id="bar-income-lbl">50%</span>
+                                </div>
+                                <div class="chart-bar-bg">
+                                    <div class="chart-bar-fill income" id="bar-income-percent" style="width: 50%;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="chart-bar-wrapper">
+                                <div class="chart-bar-info">
+                                    <span data-i18n="expenseLabel">ખર્ચ (Expense)</span>
+                                    <span id="bar-expense-lbl">50%</span>
+                                </div>
+                                <div class="chart-bar-bg">
+                                    <div class="chart-bar-fill expense" id="bar-expense-percent" style="width: 50%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Navigation Buttons -->
+                        <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
+                            <button class="btn btn-outline btn-sm" onclick="openRentPaymentModal()" style="flex: 1; min-width: 120px; border-color: var(--accent-blue); color: var(--accent-blue);">
+                                <i class="fa-solid fa-home"></i> + ભાડું
+                            </button>
+                            <button class="btn btn-outline btn-sm" onclick="openAddPropTaxModal()" style="flex: 1; min-width: 120px; border-color: var(--color-success); color: var(--color-success);">
+                                <i class="fa-solid fa-file-invoice"></i> + ઘરવેરો
+                            </button>
+                            <button class="btn btn-outline btn-sm" onclick="openAddDailyModal()" style="flex: 1; min-width: 120px; border-color: var(--color-danger); color: var(--color-danger);">
+                                <i class="fa-solid fa-wallet"></i> + રોજિંદો ખર્ચ
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity Logs -->
+                    <div class="dashboard-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">
+                                <i class="fa-solid fa-history text-orange"></i>
+                                <span data-i18n="activityTitle">તાજેતરની પ્રવૃત્તિઓ</span>
+                            </span>
+                        </div>
+                        <div class="activity-list" id="dashboard-activity-list">
+                            <!-- Activities populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ==========================================
+                 TAB 2: Houses & Rent Config
+                 ========================================== -->
+            <section id="houses-view" class="dashboard-view">
+                
+                <div class="panel-header">
+                    <h3 class="panel-title">
+                        <i class="fa-solid fa-house"></i>
+                        <span data-i18n="navHouses">૪ મકાન ભાડું</span>
+                    </h3>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-outline btn-sm" onclick="exportRentToExcel()" style="border-color: var(--color-success); color: var(--color-success);">
+                            <i class="fa-solid fa-file-excel"></i> <span data-i18n="exportExcelBtn">એક્સેલ શીટ ડાઉનલોડ</span>
+                        </button>
+                        <button class="btn btn-primary btn-sm" onclick="openRentPaymentModal()">
+                            <i class="fa-solid fa-plus"></i> <span data-i18n="addRentBtn">ભાડું ઉમેરો</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="houses-grid" id="houses-card-grid">
+                    <!-- Dynamic Houses Cards -->
+                </div>
+
+                <!-- Rent History Sub-Panel -->
+                <div class="dashboard-panel" id="house-history-panel" style="display: none; flex-direction: column;">
+                    <div class="panel-header">
+                        <span class="panel-title">
+                            <i class="fa-solid fa-clock-history"></i>
+                            <span id="history-house-name">મકાન</span> - <span data-i18n="rentHistoryTitle">ભાડા ચુકવણીનો ઇતિહાસ</span>
+                        </span>
+                        <button class="btn btn-secondary btn-sm" onclick="closeRentHistory()" data-i18n="cancelBtn">રદ કરો</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="thMonth">મહિનો</th>
+                                    <th data-i18n="thAmount">રકમ</th>
+                                    <th data-i18n="thDate">તારીખ</th>
+                                    <th data-i18n="thMode">પદ્ધતિ</th>
+                                    <th data-i18n="thStatus">સ્ટેટસ</th>
+                                    <th data-i18n="thNotes">નોંધ</th>
+                                    <th data-i18n="thAction">એક્શન</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rent-history-table-body">
+                                <!-- Dynamic rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ==========================================
+                 TAB 3: Taxes & Vero (Property & Water Tax)
+                 ========================================== -->
+            <section id="taxes-view" class="dashboard-view">
+                
+                <div class="panel-header">
+                    <h3 class="panel-title">
+                        <i class="fa-solid fa-file-shield text-blue"></i>
+                        <span data-i18n="titleTaxes">મકાન વેરા અને ગટર/પાણી વેરો</span>
+                    </h3>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-outline btn-sm" onclick="exportTaxesToExcel()" style="border-color: var(--color-success); color: var(--color-success);">
+                            <i class="fa-solid fa-file-excel"></i> <span data-i18n="exportExcelBtn">એક્સેલ શીટ ડાઉનલોડ</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Split Layout: Property Tax vs Water Tax -->
+                <div class="overview-layout">
+                    
+                    <!-- Yearly Property Tax (All houses) -->
+                    <div class="dashboard-panel">
+                        <div class="panel-header">
+                            <span class="panel-title" data-i18n="propTaxTitle" style="font-size: 15px;">૧. ઘર વેરો (Property Tax - Yearly)</span>
+                            <button class="btn btn-primary btn-sm" onclick="openAddPropTaxModal()">
+                                <i class="fa-solid fa-plus"></i> <span data-i18n="addPropTaxBtn">ઉમેરો</span>
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="thHouse">મકાન</th>
+                                        <th data-i18n="thTenament">ટેનામેન્ટ નં.</th>
+                                        <th data-i18n="thPaidYear">વર્ષ</th>
+                                        <th data-i18n="thAmount">રકમ</th>
+                                        <th data-i18n="thDate">તારીખ</th>
+                                        <th data-i18n="thNotes">નોંધ</th>
+                                        <th data-i18n="thAction">એક્શન</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="proptax-table-body">
+                                    <!-- Dynamic rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Water & Drainage Tax (533/1 Specific) -->
+                    <div class="dashboard-panel">
+                        <div class="panel-header">
+                            <span class="panel-title" data-i18n="waterTaxTitle" style="font-size: 15px;">૨. ગટર-પાણી વેરો (Water Tax - 533/1)</span>
+                            <button class="btn btn-outline btn-sm" onclick="openAddWaterTaxModal()" style="border-color: var(--accent-blue); color: var(--accent-blue);">
+                                <i class="fa-solid fa-plus"></i> <span data-i18n="addWaterTaxBtn">ઉમેરો</span>
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="thConsumer">ગ્રાહક નંબર</th>
+                                        <th data-i18n="thPaidYear">વર્ષ</th>
+                                        <th data-i18n="thAmount">રકમ</th>
+                                        <th data-i18n="thDate">તારીખ</th>
+                                        <th data-i18n="thNotes">નોંધ</th>
+                                        <th data-i18n="thAction">એક્શન</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="watertax-table-body">
+                                    <!-- Dynamic rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ==========================================
+                 TAB 4: Utility Bills (Torrent, Gas, UGVCL)
+                 ========================================== -->
+            <section id="utilities-view" class="dashboard-view">
+                
+                <div class="panel-header">
+                    <h3 class="panel-title">
+                        <i class="fa-solid fa-bolt-lightning text-orange"></i>
+                        <span data-i18n="titleUtilities">વીજળી અને ગેસ બિલ ચૂકવણીઓ</span>
+                    </h3>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-outline btn-sm" onclick="exportUtilitiesToExcel()" style="border-color: var(--color-success); color: var(--color-success);">
+                            <i class="fa-solid fa-file-excel"></i> <span data-i18n="exportExcelBtn">એક્સેલ શીટ ડાઉનલોડ</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Split Layout: 533/1 Bills vs Kolavada UGVCL Bills -->
+                <div class="overview-layout">
+                    
+                    <!-- 533/1 Accounts (Torrent ID: 1007968 / Gas ID: 500000270187) -->
+                    <div class="dashboard-panel">
+                        <div class="panel-header">
+                            <span class="panel-title" data-i18n="torrentGasTitle" style="font-size: 15px;">૧. ૫૩૩/૧ ગાંધીનગર (Torrent & Gas)</span>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn btn-primary btn-sm" onclick="openAddTorrentModal()">+ Torrent</button>
+                                <button class="btn btn-outline btn-sm" onclick="openAddGasModal()" style="border-color: var(--color-warning); color: var(--color-warning);">+ Gas</button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="billType">પ્રકાર</th>
+                                        <th data-i18n="thConsumer">ગ્રાહક નં.</th>
+                                        <th data-i18n="billPeriod">ગાળો</th>
+                                        <th data-i18n="thAmount">રકમ</th>
+                                        <th data-i18n="thDate">તારીખ</th>
+                                        <th data-i18n="thNotes">નોંધ</th>
+                                        <th data-i18n="thAction">એક્શન</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="torrent-table-body">
+                                    <!-- Dynamic rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Kolavada UGVCL Light Bills (Auto maps IDs, Paid by Tenants) -->
+                    <div class="dashboard-panel">
+                        <div class="panel-header">
+                            <span class="panel-title" data-i18n="ugvclTitle" style="font-size: 15px;">૨. કોલાવડા UGVCL લાઈટ બિલ (ભાડુઆતો ભરે છે)</span>
+                            <button class="btn btn-primary btn-sm" onclick="openAddUgvclModal()">
+                                <i class="fa-solid fa-plus"></i> <span data-i18n="addUgvclBtn">UGVCL</span>
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="thHouse">મકાન</th>
+                                        <th data-i18n="thConsumer">કન્ઝ્યુમર નં.</th>
+                                        <th data-i18n="billPeriod">ગાળો</th>
+                                        <th data-i18n="thAmount">રકમ</th>
+                                        <th data-i18n="thDate">તારીખ</th>
+                                        <th data-i18n="thPaidBy">ભરનાર</th>
+                                        <th data-i18n="thNotes">નોંધ</th>
+                                        <th data-i18n="thAction">એક્શન</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ugvcl-table-body">
+                                    <!-- Dynamic rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ==========================================
+                 TAB 5: Milk Bills
+                 ========================================== -->
+            <section id="milk-view" class="dashboard-view">
+                
+                <div class="panel-header">
+                    <h3 class="panel-title">
+                        <i class="fa-solid fa-cow text-blue"></i>
+                        <span data-i18n="historyMilkTitle">દૂધ બિલનો માસિક ઇતિહાસ</span>
+                    </h3>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-outline btn-sm" onclick="exportMilkToExcel()" style="border-color: var(--color-success); color: var(--color-success);">
+                            <i class="fa-solid fa-file-excel"></i> <span data-i18n="exportExcelBtn">એક્સેલ શીટ ડાઉનલોડ</span>
+                        </button>
+                        <button class="btn btn-primary btn-sm" onclick="openAddMilkModal()">
+                            <i class="fa-solid fa-plus"></i> <span data-i18n="addMilkBtn">દૂધનું બિલ ઉમેરો</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th data-i18n="thMonth">મહિનો</th>
+                                <th data-i18n="vendorName">ડેરી / દૂધવાળાનું નામ</th>
+                                <th data-i18n="thLiters">કુલ લીટર</th>
+                                <th data-i18n="thRate">ભાવ</th>
+                                <th data-i18n="totalAmount">કુલ રકમ</th>
+                                <th data-i18n="thDate">તારીખ</th>
+                                <th data-i18n="thNotes">નોંધ</th>
+                                <th data-i18n="thAction">એક્શન</th>
+                            </tr>
+                        </thead>
+                        <tbody id="milk-table-body">
+                            <!-- Dynamic milk entries -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+
+            <!-- ==========================================
+                 TAB 6: Daily Ledger (Roje rojna kharcha)
+                 ========================================== -->
+            <section id="daily-view" class="dashboard-view">
+                
+                <div class="panel-header">
+                    <h3 class="panel-title">
+                        <i class="fa-solid fa-wallet text-blue"></i>
+                        <span data-i18n="titleDaily">રોજિંદા ખર્ચ પત્રક (Daily Expenses)</span>
+                    </h3>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-outline btn-sm" onclick="exportDailyToExcel()" style="border-color: var(--color-success); color: var(--color-success);">
+                            <i class="fa-solid fa-file-excel"></i> <span data-i18n="exportExcelBtn">એક્સેલ શીટ ડાઉનલોડ</span>
+                        </button>
+                        <button class="btn btn-primary btn-sm" onclick="openAddDailyModal()">
+                            <i class="fa-solid fa-plus"></i> <span data-i18n="addDailyBtn">નવો રોજિંદો ખર્ચ</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th data-i18n="thDate">તારીખ</th>
+                                <th data-i18n="thDescription">ખર્ચ વિગત / વર્ણન</th>
+                                <th data-i18n="thCategory">શ્રેણી</th>
+                                <th data-i18n="thAmount">રકમ</th>
+                                <th data-i18n="thMode">પદ્ધતિ</th>
+                                <th data-i18n="thAction">એક્શન</th>
+                            </tr>
+                        </thead>
+                        <tbody id="daily-table-body">
+                            <!-- Dynamic daily expense records -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+
+            <!-- ==========================================
+                 TAB 6b: Bank of Baroda Debits Ledger (BOB)
+                 ========================================== -->
+            <section id="bob-view" class="dashboard-view">
+                
+                <div class="panel-header">
+                    <h3 class="panel-title">
+                        <i class="fa-solid fa-building-columns text-orange"></i>
+                        <span data-i18n="titleBob">બેંક ઓફ બરોડા ઉપાડ હિસ્ટ્રી (BOB Debits)</span>
+                    </h3>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-outline btn-sm" onclick="exportBobToExcel()" style="border-color: var(--color-success); color: var(--color-success);">
+                            <i class="fa-solid fa-file-excel"></i> <span data-i18n="exportExcelBtn">એક્સેલ શીટ ડાઉનલોડ</span>
+                        </button>
+                        <button class="btn btn-primary btn-sm" onclick="openAddBobModal()">
+                            <i class="fa-solid fa-plus"></i> <span data-i18n="addBobBtn">બીઓબી એન્ટ્રી ઉમેરો</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- BOB Stats Panel -->
+                <div class="stats-grid" style="margin-bottom: 20px;">
+                    <div class="stat-card danger">
+                        <div class="stat-card-info">
+                            <span class="stat-card-title" data-i18n="kpiBobTotal">કુલ ઉપાડ (BOB)</span>
+                            <span class="stat-card-amount" id="bob-total-withdrawal">₹0</span>
+                            <span class="stat-card-subtitle">Total Withdrawals</span>
+                        </div>
+                        <div class="stat-card-icon">
+                            <i class="fa-solid fa-money-bill-transfer"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card success">
+                        <div class="stat-card-info">
+                            <span class="stat-card-title" data-i18n="kpiBobFd">કુલ એફ.ડી. (FD)</span>
+                            <span class="stat-card-amount" id="bob-total-fd">₹0</span>
+                            <span class="stat-card-subtitle">Fixed Deposits Created</span>
+                        </div>
+                        <div class="stat-card-icon">
+                            <i class="fa-solid fa-vault"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card blue">
+                        <div class="stat-card-info">
+                            <span class="stat-card-title" data-i18n="kpiBobTax">વેરા ચુકવણી (BOB)</span>
+                            <span class="stat-card-amount" id="bob-total-taxes">₹0</span>
+                            <span class="stat-card-subtitle">Property Taxes Paid via BOB</span>
+                        </div>
+                        <div class="stat-card-icon">
+                            <i class="fa-solid fa-receipt"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th data-i18n="thDate">તારીખ</th>
+                                <th data-i18n="thNarration">બેંક વિગત (Narration)</th>
+                                <th data-i18n="thAmount">રકમ</th>
+                                <th data-i18n="thDescription">ખર્ચ વિગત / વર્ણન</th>
+                                <th data-i18n="thAction">એક્શન</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bob-table-body">
+                            <!-- Dynamic BOB transactions -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+
+            <!-- ==========================================
+                 TAB 7: Backup, Restore & Configs
+                 ========================================== -->
+            <section id="backup-view" class="dashboard-view">
+                
+                <div class="dashboard-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">
+                            <i class="fa-solid fa-database"></i>
+                            <span data-i18n="backupTitle">ડેટા બેકઅપ અને સેવિંગ્સ</span>
+                        </h3>
+                    </div>
+                    <p data-i18n="backupDesc" style="color: var(--text-muted); font-size: 14px;">
+                        તમારો ડેટા તમારા બ્રાઉઝરમાં આપમેળે સેવ થાય છે. ડેટાનો કાયમી બેકઅપ લેવા માટે તેને ફાઇલ તરીકે ડાઉનલોડ કરો.
+                    </p>
+                    
+                    <div class="backup-panel">
+                        <!-- Download Backup Box -->
+                        <div class="backup-box">
+                            <i class="fa-solid fa-file-arrow-down"></i>
+                            <h4 data-i18n="downloadBackupBtn">બેકઅપ ફાઈલ ડાઉનલોડ કરો</h4>
+                            <button class="btn btn-primary" onclick="downloadBackup()">
+                                <i class="fa-solid fa-download"></i> Export Data (JSON)
+                            </button>
+                        </div>
+                        
+                        <!-- Upload Backup Box -->
+                        <div class="backup-box">
+                            <i class="fa-solid fa-file-arrow-up"></i>
+                            <h4 data-i18n="uploadBackupBtn">બેકઅપ ફાઈલ અપલોડ કરો</h4>
+                            <label class="btn btn-outline" style="cursor: pointer; border-color: var(--accent-blue); color: var(--accent-blue);">
+                                <i class="fa-solid fa-upload"></i> Import Data (JSON)
+                                <input type="file" id="import-file-input" class="file-upload-input" accept=".json">
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div style="border-top: 1px solid var(--border-color); padding-top: 20px; display: flex; justify-content: flex-end;">
+                        <button class="btn btn-secondary" onclick="resetAllData()" style="background-color: var(--color-danger-light); color: var(--color-danger);">
+                            <i class="fa-solid fa-trash-can"></i> <span data-i18n="resetDataBtn">બધો ડેટા સાફ કરો (રિસેટ)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Google Sheet Sync Panel -->
+                <div class="dashboard-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <span data-i18n="googleSheetSyncTitle">Google Sheet સિંક્રોનાઇઝેશન</span>
+                        </h3>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="googleSheetUrlLabel">Google Apps Script URL:</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="gsheet-url" class="form-control" style="flex: 1;" placeholder="https://script.google.com/macros/s/...">
+                            <button class="btn btn-secondary" onclick="saveGoogleSheetUrl()"><i class="fa-solid fa-save"></i></button>
+                        </div>
+                    </div>
+                    <button class="btn btn-accent btn-sync-cloud" onclick="syncToGoogleSheets()" style="width: 100%;">
+                        <i class="fa-solid fa-rotate"></i> <span data-i18n="syncBtn">Google Sheet માં સેવ કરો</span>
+                    </button>
+                </div>
+
+                <!-- Houses Configurations Settings -->
+                <div class="dashboard-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">
+                            <i class="fa-solid fa-house-chimney-window"></i>
+                            <span data-i18n="editHouseBtn">મકાન વિગત સુધારો</span>
+                        </h3>
+                    </div>
+                    <div id="house-settings-list">
+                        <!-- Loop houses in settings dynamically -->
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ==========================================================================
+         MODALS & DIALOGS
+         ========================================================================== -->
+
+    <!-- MODAL 1: Add Rent Payment -->
+    <div class="modal" id="modal-add-rent">
+        <div class="modal-content">
+            <header class="modal-header">
+                <span class="modal-title" id="modal-add-rent-title" data-i18n="modalAddRentTitle">નવી ભાડા ચૂકવણી ઉમેરો</span>
+                <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </header>
+            <form id="rent-form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="rent-house-id" data-i18n="selectHouse">મકાન પસંદ કરો</label>
+                        <select id="rent-house-id" class="form-control" required>
+                            <!-- Occupied houses populated dynamically -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="rent-pay-month" data-i18n="payMonth">ચુકવણીનો મહિનો</label>
+                            <input type="month" id="rent-pay-month" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="rent-amount" data-i18n="payAmount">રકમ (રૂ.)</label>
+                            <input type="number" id="rent-amount" class="form-control" required placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="rent-pay-date" data-i18n="payDate">ચુકવણી તારીખ</label>
+                            <input type="date" id="rent-pay-date" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="rent-pay-mode" data-i18n="payMode">ચુકવણી પદ્ધતિ</label>
+                            <select id="rent-pay-mode" class="form-control" required>
+                                <option value="GPay" data-i18n="modeGPay">GPay / UPI</option>
+                                <option value="Cash" data-i18n="modeCash">રોકડા (Cash)</option>
+                                <option value="Bank" data-i18n="modeBank">બેંક ટ્રાન્સફર</option>
+                                <option value="Other" data-i18n="modeOther">અન્ય</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rent-pay-status" data-i18n="payStatus">ચુકવણી સ્ટેટસ</label>
+                        <select id="rent-pay-status" class="form-control" required>
+                            <option value="paid" data-i18n="statusPaid">ચૂકવેલ (Paid)</option>
+                            <option value="partial" data-i18n="statusPartial">અંશતઃ ચૂકવેલ</option>
+                            <option value="unpaid" data-i18n="statusUnpaid">બાકી (Unpaid)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="rent-notes" data-i18n="notes">નોંધ (નોટ્સ)</label>
+                        <input type="text" id="rent-notes" class="form-control" data-i18n-placeholder="notes" placeholder="નોંધ ઉમેરો...">
+                    </div>
+                </div>
+                <footer class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm btn-close-modal" data-i18n="cancelBtn">રદ કરો</button>
+                    <button type="submit" class="btn btn-primary btn-sm" data-i18n="saveBtn">સેવ કરો</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: Configure House & Tenant -->
+    <div class="modal" id="modal-edit-house">
+        <div class="modal-content">
+            <header class="modal-header">
+                <span class="modal-title" data-i18n="modalEditHouseTitle">મકાન અને ભાડુઆતની માહિતી</span>
+                <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </header>
+            <form id="edit-house-form">
+                <input type="hidden" id="edit-house-id">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="edit-house-name">મકાનનું નામ / નંબર</label>
+                        <input type="text" id="edit-house-name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="edit-tenant-name" data-i18n="tenantLabel">ભાડુઆતનું નામ</label>
+                            <input type="text" id="edit-tenant-name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-tenant-phone" data-i18n="phoneLabel">મોબાઈલ નંબર</label>
+                            <input type="tel" id="edit-tenant-phone" class="form-control">
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="edit-rent-amount" data-i18n="monthlyRentLabel">માસિક ભાડું</label>
+                            <input type="number" id="edit-rent-amount" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-deposit-amount" data-i18n="depositLabel">ડિપોઝિટ રકમ</label>
+                            <input type="number" id="edit-deposit-amount" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="edit-deposit-status">ડિપોઝિટ સ્ટેટસ</label>
+                            <select id="edit-deposit-status" class="form-control">
+                                <option value="paid" data-i18n="statusPaid">ચૂકવેલ (Paid)</option>
+                                <option value="unpaid" data-i18n="statusUnpaid">બાકી (Unpaid)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-house-status" data-i18n="statusLabel">સ્ટેટસ</label>
+                            <select id="edit-house-status" class="form-control">
+                                <option value="occupied" data-i18n="statusOccupied">ભાડે આપેલ (Occupied)</option>
+                                <option value="vacant" data-i18n="statusVacant">ખાલી (Vacant)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <footer class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm btn-close-modal" data-i18n="cancelBtn">રદ કરો</button>
+                    <button type="submit" class="btn btn-primary btn-sm" data-i18n="saveBtn">સેવ કરો</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: Add Property Tax (Ghar Vero) -->
+    <div class="modal" id="modal-add-proptax">
+        <div class="modal-content">
+            <header class="modal-header">
+                <span class="modal-title" id="modal-add-proptax-title" data-i18n="modalAddPropTax">નવી ઘર વેરો ચુકવણી ઉમેરો</span>
+                <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </header>
+            <form id="proptax-form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="proptax-house-id" data-i18n="selectHouse">મકાન પસંદ કરો</label>
+                        <select id="proptax-house-id" class="form-control" required>
+                            <!-- Dynamically populated houses -->
+                        </select>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="proptax-tenament" data-i18n="thTenament">ટેનામેન્ટ નંબર</label>
+                            <input type="text" id="proptax-tenament" class="form-control" readonly placeholder="ટેનામેન્ટ નંબર">
+                        </div>
+                        <div class="form-group">
+                            <label for="proptax-year" data-i18n="thPaidYear">આકારણી વર્ષ</label>
+                            <input type="text" id="proptax-year" class="form-control" required placeholder="દા.ત. 2025-26">
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="proptax-amount" data-i18n="payAmount">વેરા રકમ (રૂ.)</label>
+                            <input type="number" id="proptax-amount" class="form-control" required placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="proptax-pay-date" data-i18n="payDate">ચુકવણી તારીખ</label>
+                            <input type="date" id="proptax-pay-date" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="proptax-ref-no" data-i18n="refNo">રેફરન્સ / પાવતી નંબર</label>
+                        <input type="text" id="proptax-ref-no" class="form-control" placeholder="Receipt / Transaction No.">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="proptax-notes" data-i18n="notes">નોંધ</label>
+                        <input type="text" id="proptax-notes" class="form-control" data-i18n-placeholder="notes" placeholder="નોંધ ઉમેરો...">
+                    </div>
+                </div>
+                <footer class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm btn-close-modal" data-i18n="cancelBtn">રદ કરો</button>
+                    <button type="submit" class="btn btn-primary btn-sm" data-i18n="saveBtn">સેવ કરો</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 4: Add Water/Drainage Tax (533/1 Specific) -->
+    <div class="modal" id="modal-add-watertax">
+        <div class="modal-content">
+            <header class="modal-header">
+                <span class="modal-title" id="modal-add-watertax-title" data-i18n="modalAddWaterTax">નવી ગટર-પાણી વેરો ચુકવણી ઉમેરો</span>
+                <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </header>
+            <form id="watertax-form">
+                <div class="modal-body">
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="watertax-customer" data-i18n="thConsumer">ગ્રાહક નંબર</label>
+                            <input type="text" id="watertax-customer" class="form-control" readonly value="051822">
+                        </div>
+                        <div class="form-group">
+                            <label for="watertax-year" data-i18n="thPaidYear">આકારણી વર્ષ</label>
+                            <input type="text" id="watertax-year" class="form-control" required placeholder="દા.ત. 2025-26">
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="watertax-amount" data-i18n="payAmount">વેરા રકમ (રૂ.)</label>
+                            <input type="number" id="watertax-amount" class="form-control" required placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="watertax-pay-date" data-i18n="payDate">ચુકવણી તારીખ</label>
+                            <input type="date" id="watertax-pay-date" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="watertax-ref-no" data-i18n="refNo">રેફરન્સ / પાવતી નંબર</label>
+                        <input type="text" id="watertax-ref-no" class="form-control" placeholder="Receipt / Transaction No.">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="watertax-notes" data-i18n="notes">નોંધ</label>
+                        <input type="text" id="watertax-notes" class="form-control" data-i18n-placeholder="notes" placeholder="નોંધ ઉમેરો...">
+                    </div>
+                </div>
+                <footer class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm btn-close-modal" data-i18n="cancelBtn">રદ કરો</button>
+                    <button type="submit" class="btn btn-primary btn-sm" data-i18n="saveBtn">સેવ કરો</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 5: Add Torrent Power Bill (533/1 Specific) -->
+    <div class="modal" id="modal-add-torrent">
+        <div class="modal-content">
+            <header class="modal-header">
+                <span class="modal-title" id="modal-add-torrent-title" data-i18n="modalAddTorrent">નવું Torrent Power બિલ ઉમેરો</span>
+                <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </header>
+            <form id="torrent-form">
+                <div class="modal-body">
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="torrent-customer" data-i18n="thConsumer">ગ્રાહક નંબર (Customer ID)</label>
+                            <input type="text" id="torrent-customer" class="form-control" readonly value="1007968">
+                        </div>
+                        <div class="form-group">
+                            <label for="torrent-period" data-i18n="billPeriod">બિલ સમયગાળો</label>
+                            <input type="text" id="torrent-period" class="form-control" required placeholder="દા.ત. May-Jun 2026">
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="torrent-amount" data-i18n="payAmount">બિલ રકમ (રૂ.)</label>
+                            <input type="number" id="torrent-amount" class="form-control" required placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="torrent-pay-date" data-i18n="payDate">ચુકવણી તારીખ</label>
+                            <input type="date" id="torrent-pay-date" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="torrent-ref-no" data-i18n="refNo">રેફરન્સ / UPI નંબર</label>
+                        <input type="text" id="torrent-ref-no" class="form-control" placeholder="Transaction ID / Receipt No.">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="torrent-notes" data-i18n="notes">નોંધ</label>
+                        <input type="text" id="torrent-notes" class="form-control" data-i18n-placeholder="notes" placeholder="નોંધ ઉમેરો...">
+                    </div>
+                </div>
+                <footer class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm btn-close-modal" data-i18n="cancelBtn">રદ કરો</button>
+                    <button type="submit" class="btn btn-primary btn-sm" data-i18n="saveBtn">સેવ કરો</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 6: Add Gujarat Gas Bill (533/1 Specific) -->
+    <div class="modal" id="modal-add-gas">
+        <div class="modal-content">
+            <header class="modal-header">
+                <span class="modal-title" id="modal-add-gas-title" data-i18n="modalAddGas">નવું ગુજરાત ગેસ બિલ ઉમેરો</span>
+                <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </header>
+            <form id="gas-form">
+                <div class="modal-body">
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="gas-customer" data-i18n="thConsumer">ગ્રાહક નંબર (Customer No)</label>
+                            <input type="text" id="gas-customer" class="form-control" readonly value="500000270187">
+                        </div>
+                        <div class="form-group">
+                            <label for="gas-period" data-i18n="billPeriod">બિલ સમયગાળો</label>
+                            <input type="text" id="gas-period" class="form-control" required placeholder="દા.ત. May-Jun 2026">
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="gas-amount" data-i18n="payAmount">બિલ રકમ (રૂ.)</label>
+                            <input type="number" id="gas-amount" class="form-control" required placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="gas-pay-date" data-i18n="payDate">ચુકવણી તારીખ</label>
+                            <input type="date" id="gas-pay-date" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gas-ref-no" data-i18n="refNo">રેફરન્સ / UPI નંબર</label>
+                        <input type="text" id="gas-ref-no" class="form-control" placeholder="Transaction ID">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="gas-notes" data-i18n="notes">નોંધ</label>
+                        <input type="text" id="gas-notes" class="form-control" data-i18n-placeholder="notes" placeholder="નોંધ ઉમેરો...">
+                    </div>
+                </div>
+                <footer class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm btn-close-modal" data-i18n="cancelBtn">રદ કરો</button>
+                    <button type="submit" class="btn btn-primary btn-sm" data-i18n="saveBtn">સેવ કરો</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 7: Add UGVCL Light Bill (Kolavada Houses Auto Map) -->
+    <div class="modal" id="modal-add-ugvcl">
+        <div class="modal-content">
+            <header class="modal-header">
+                <span class="modal-title" id="modal-add-ugvcl-title" data-i18n="modalAddUgvcl">નવું UGVCL લાઈટ બિલ ઉમેરો</span>
+                <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </header>
+            <form id="ugvcl-form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="ugvcl-house-id" data-i18n="selectHouse">મકાન પસંદ કરો</label>
+                        <select id="ugvcl-house-id" class="form-control" required>
+                            <!-- Kolavada houses populated dynamically -->
+                        </select>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="ugvcl-consumer" data-i18n="thConsumer">ગ્રાહક નંબર (Consumer No)</label>
+                            <input type="text" id="ugvcl-consumer" class="form-control" readonly placeholder="કન્ઝ્યુમર નંબર">
+                        </div>
+                        <div class="form-group">
+                            <label for="ugvcl-period" data-i18n="billPeriod">બિલ સમયગાળો</label>
+                            <input type="text" id="ugvcl-period" class="form-control" required placeholder="દા.ત. May-Jun 2026">
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="ugvcl-amount" data-i18n="payAmount">બિલ રકમ (રૂ.)</label>
+                            <input type="number" id="ugvcl-amount" class="form-control" required placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="ugvcl-pay-date" data-i18n="payDate">ચુકવણી તારીખ</label>
+                            <input type="date" id="ugvcl-pay-date" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="ugvcl-paid-by" data-i18n="thPaidBy">બિલ ભરનાર</label>
+                            <select id="ugvcl-paid-by" class="form-control" required>
+                                <option value="tenant" data-i18n="paidByTenant">ભાડુઆત (Tenant)</option>
+                                <option value="owner" data-i18n="paidByOwner">માલિક (Owner)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ugvcl-ref-no" data-i18n="refNo">રેફરન્સ નંબર</label>
+                            <input type="text" id="ugvcl-ref-no" class="form-control" placeholder="Transaction Ref">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="ugvcl-notes" data-i18n="notes">નોંધ</label>
+                        <input type="text" id="ugvcl-notes" class="form-control" data-i18n-placeholder="notes" placeholder="નોંધ ઉમેરો...">
+                    </div>
+                </div>
+                <footer class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm btn-close-modal" data-i18n="cancelBtn">રદ કરો</button>
+                    <button type="submit" class="btn btn-primary btn-sm" data-i18n="saveBtn">સેવ કરો</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 8: Add Milk Payment -->
+    <div class="modal" id="modal-add-milk">
+        <div class="modal-content">
+            <header class="modal-header">
+                <span class="modal-title" id="modal-add-milk-title" data-i18n="addMilkBtn">દૂધનું બિલ ઉમેરો</span>
+                <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </header>
+            <form id="milk-form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="milk-vendor" data-i18n="vendorName">ડેરી / દૂધવાળાનું નામ</label>
+                        <input type="text" id="milk-vendor" class="form-control" required placeholder="દા.ત. અમુલ ડેરી / લક્ષ્મી ડેરી">
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="milk-pay-month" data-i18n="payMonth">મહિનો</label>
+                            <input type="month" id="milk-pay-month" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="milk-pay-date" data-i18n="payDate">ચુકવણી તારીખ</label>
+                            <input type="date" id="milk-pay-date" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-3" style="display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 10px;">
+                        <div class="form-group">
+                            <label for="milk-liters" data-i18n="thLiters">કુલ લીટર</label>
+                            <input type="number" step="0.5" id="milk-liters" class="form-control" required placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="milk-rate" data-i18n="thRate">ભાવ</label>
+                            <input type="number" id="milk-rate" class="form-control" required placeholder="68">
+                        </div>
+                        <div class="form-group">
+                            <label for="milk-amount" data-i18n="totalAmount">કુલ રકમ</label>
+                            <input type="number" id="milk-amount" class="form-control" required readonly placeholder="0">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="milk-notes" data-i18n="notes">નોંધ</label>
+                        <input type="text" id="milk-notes" class="form-control" data-i18n-placeholder="notes" placeholder="નોંધ ઉમેરો...">
+                    </div>
+                </div>
+                <footer class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm btn-close-modal" data-i18n="cancelBtn">રદ કરો</button>
+                    <button type="submit" class="btn btn-primary btn-sm" data-i18n="saveBtn">સેવ કરો</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 9: Add Daily Expense Ledger -->
+    <div class="modal" id="modal-add-daily">
+        <div class="modal-content">
+            <header class="modal-header">
+                <span class="modal-title" id="modal-add-daily-title" data-i18n="modalAddDaily">નવો રોજિંદો ખર્ચ ઉમેરો</span>
+                <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </header>
+            <form id="daily-form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="daily-desc" data-i18n="thDescription">ખર્ચ વિગત / વર્ણન</label>
+                        <input type="text" id="daily-desc" class="form-control" required placeholder="દા.ત. કિરાણા સામાન / પેટ્રોલ / મકાન ખર્ચ">
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="daily-category" data-i18n="thCategory">શ્રેણી</label>
+                            <select id="daily-category" class="form-control" required>
+                                <option value="household" data-i18n="catHousehold">ઘર વપરાશ</option>
+                                <option value="maintenance" data-i18n="catMaintenance">મકાન રિપેરીંગ</option>
+                                <option value="fuel" data-i18n="catFuel">વાહન પેટ્રોલ</option>
+                                <option value="personal" data-i18n="catPersonal">વ્યક્તિગત ખર્ચ</option>
+                                <option value="other" data-i18n="catOther">અન્ય ખર્ચ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="daily-pay-mode" data-i18n="payMode">ચુકવણી પદ્ધતિ</label>
+                            <select id="daily-pay-mode" class="form-control" required>
+                                <option value="Cash" data-i18n="modeCash">રોકડા (Cash)</option>
+                                <option value="GPay" data-i18n="modeGPay">GPay / UPI</option>
+                                <option value="Bank" data-i18n="modeBank">બેંક ટ્રાન્સફર</option>
+                                <option value="Other" data-i18n="modeOther">અન્ય</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="daily-amount" data-i18n="payAmount">રકમ (રૂ.)</label>
+                            <input type="number" id="daily-amount" class="form-control" required placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="daily-date" data-i18n="payDate">તારીખ</label>
+                            <input type="date" id="daily-date" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="daily-notes" data-i18n="notes">નોંધ</label>
+                        <input type="text" id="daily-notes" class="form-control" data-i18n-placeholder="notes" placeholder="નોંધ ઉમેરો...">
+                    </div>
+                </div>
+                <footer class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm btn-close-modal" data-i18n="cancelBtn">રદ કરો</button>
+                    <button type="submit" class="btn btn-primary btn-sm" data-i18n="saveBtn">સેવ કરો</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 10: Add BOB Bank Transaction -->
+    <div class="modal" id="modal-add-bob">
+        <div class="modal-content">
+            <header class="modal-header" id="modal-add-bob-header">
+                <span class="modal-title" id="modal-add-bob-title" data-i18n="modalAddBob">નવી બીઓબી બેંક એન્ટ્રી ઉમેરો</span>
+                <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </header>
+            <form id="bob-form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="bob-narration" data-i18n="thNarration">બેંક વિગત (Narration)</label>
+                        <input type="text" id="bob-narration" class="form-control" required placeholder="દા.ત. MBK/616186724808/13:53:15/ અથવા ATM/CASH/...">
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="bob-amount" data-i18n="payAmount">રકમ (રૂ.)</label>
+                            <input type="number" step="any" id="bob-amount" class="form-control" required placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="bob-date" data-i18n="payDate">તારીખ</label>
+                            <input type="date" id="bob-date" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="bob-desc" data-i18n="thDescription">ખર્ચ વિગત / વર્ણન</label>
+                        <input type="text" id="bob-desc" class="form-control" required placeholder="દા.ત. Torrent Power Bill, Sona no doro, etc.">
+                    </div>
+                </div>
+                <footer class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm btn-close-modal" data-i18n="cancelBtn">રદ કરો</button>
+                    <button type="submit" class="btn btn-primary btn-sm" data-i18n="saveBtn">સેવ કરો</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+    <!-- Core Script -->
+    <script src="tracker.js"></script>
+</body>
+</html>
