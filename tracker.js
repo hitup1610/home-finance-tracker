@@ -1569,7 +1569,8 @@ function saveGoogleSheetUrl() {
 async function syncToGoogleSheets() {
     // Get the latest URL from input field in case user didn't click save
     const urlInput = document.getElementById("gsheet-url");
-    const currentUrl = urlInput ? urlInput.value.trim() : appState.googleSheetUrl;
+    // Priority: Input field value (if not empty) > Saved appState URL
+    let currentUrl = (urlInput && urlInput.value.trim() !== "") ? urlInput.value.trim() : appState.googleSheetUrl;
 
     if (!currentUrl) {
         alert(appState.lang === "gu" ? "કૃપા કરીને પહેલા URL સેટ કરો." : "Please set the Google Apps Script URL first.");
