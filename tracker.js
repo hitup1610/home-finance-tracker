@@ -498,12 +498,8 @@ let currentBobEditId = null;
 
 // Initialize State with Backward Compatibility and Migration
 function initApp() {
-    // Check Authentication first
-    if (sessionStorage.getItem("hitesh_auth") === "true") {
-        document.getElementById("login-screen").style.display = "none";
-    } else {
-        document.getElementById("login-screen").style.display = "flex";
-    }
+    // સાઈટ લોડ થાય ત્યારે લોગિન સ્ક્રીન છુપાવી દેવી જેથી બીજા ટેબ ખુલે
+    document.getElementById("login-screen").style.display = "none";
 
     const stored = localStorage.getItem("hitesh_home_finance_state");
     if (stored) {
@@ -559,6 +555,7 @@ function handleLogin() {
         document.getElementById("login-screen").style.opacity = "0";
         setTimeout(() => {
             document.getElementById("login-screen").style.display = "none";
+            switchTab("bob"); // પિન સાચો હોય તો BOB ટેબ પર લઈ જવું
         }, 300);
         errorMsg.style.display = "none";
     } else {
@@ -616,6 +613,13 @@ function setLanguage(lang) {
 
 // Navigation Tab Switcher
 function switchTab(tabId) {
+    // સુરક્ષા તપાસ: જો BOB ટેબ પર ક્લિક થાય અને લોગિન ન હોય તો પિન માંગવો
+    if (tabId === "bob" && sessionStorage.getItem("hitesh_auth") !== "true") {
+        document.getElementById("login-screen").style.display = "flex";
+        document.getElementById("login-screen").style.opacity = "1";
+        return; // ટેબ બદલવાનું રોકો
+    }
+
     // Update active sidebar elements
     document.querySelectorAll(".menu-item").forEach(item => {
         if (item.getAttribute("data-tab") === tabId) {
