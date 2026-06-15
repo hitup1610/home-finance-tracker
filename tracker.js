@@ -1772,6 +1772,7 @@ function openRentPaymentModal(houseId = null) {
         const house = appState.houses.find(h => h.id === houseId);
         if (house) {
             document.getElementById("rent-amount").value = house.rentAmount;
+            document.getElementById("rent-tenant-name").value = house.tenantName || "";
         }
     }
     document.getElementById("modal-add-rent-title").textContent = TRANSLATIONS[appState.lang].modalAddRentTitle;
@@ -1784,18 +1785,26 @@ function handleRentHouseChange(event) {
     const house = appState.houses.find(h => h.id === houseId);
     if (house) {
         document.getElementById("rent-amount").value = house.rentAmount;
+        document.getElementById("rent-tenant-name").value = house.tenantName || "";
     }
 }
 
 function handleAddRentSubmit(event) {
     event.preventDefault();
     const houseId = parseInt(document.getElementById("rent-house-id").value, 10);
+    const tenantName = document.getElementById("rent-tenant-name").value;
     const amount = parseInt(document.getElementById("rent-amount").value, 10);
     const payMonth = document.getElementById("rent-pay-month").value;
     const payDate = document.getElementById("rent-pay-date").value;
     const payMode = document.getElementById("rent-pay-mode").value;
     const payStatus = document.getElementById("rent-pay-status").value;
     const notes = document.getElementById("rent-notes").value;
+
+    // Update tenant name in the master house record if changed
+    const house = appState.houses.find(h => h.id === houseId);
+    if (house && tenantName) {
+        house.tenantName = tenantName;
+    }
 
     if (currentRentEditId) {
         const idx = appState.rentPayments.findIndex(p => p.id === currentRentEditId);
