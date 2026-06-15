@@ -1041,7 +1041,7 @@ function renderRentHistoryTable() {
         return;
     }
 
-    filtered.sort((a,b) => new Date(b.datePaid) - new Date(a.datePaid));
+    filtered.sort((a,b) => new Date(b.monthYear) - new Date(a.monthYear));
 
     filtered.forEach(p => {
         const row = document.createElement("tr");
