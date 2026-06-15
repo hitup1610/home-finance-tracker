@@ -23,6 +23,21 @@
 </head>
 <body class="lang-gu"> <!-- Default Language: Gujarati -->
 
+    <!-- ==========================================
+         0. Login Overlay
+         ========================================== -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-card">
+            <span class="logo-icon" style="width: 60px; height: 60px; font-size: 24px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; border-radius: 15px;">HN</span>
+            <h2 data-i18n="appName">ગૃહ-નાણા વ્યવસ્થાપક</h2>
+            <div class="form-group" style="width: 100%; margin-top: 20px;">
+                <input type="password" id="login-pin" class="form-control" placeholder="પિન દાખલ કરો (PIN)" style="text-align: center; letter-spacing: 5px; font-size: 20px;">
+            </div>
+            <button class="btn btn-primary" onclick="handleLogin()" style="width: 100%; margin-top: 10px; height: 45px;">Login</button>
+            <p id="login-error" style="color: var(--color-danger); font-size: 14px; margin-top: 15px; display: none; font-weight: 600;">ખોટો પિન છે! ફરી પ્રયાસ કરો.</p>
+        </div>
+    </div>
+
     <div class="dashboard-container">
         
         <!-- ==========================================
