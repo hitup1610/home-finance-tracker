@@ -321,10 +321,10 @@ const TRANSLATIONS = {
 const DEFAULT_STATE = {
     lang: "gu", // default language is Gujarati
     houses: [
-        { id: 1, name: "533/1, 5B, Gandhinagar", tenamentNo: "1007A09729", waterCustomerNo: "051822", torrentCustomerId: "1007968", gasCustomerNo: "500000270187", tenantName: "રાકેશભાઈ પ્રજાપતિ", tenantPhone: "9876543210", rentAmount: 7500, depositAmount: 15000, depositStatus: "paid", status: "occupied" },
-        { id: 2, name: "2658, Dholanagar, Kolavada", tenamentNo: "1007C102107", ugvclConsumerNo: "26919022419", tenantName: "હરેશભાઈ વાઘેલા", tenantPhone: "9624589320", rentAmount: 8000, depositAmount: 16000, depositStatus: "paid", status: "occupied" },
-        { id: 3, name: "733, Vah, Kolavada", tenamentNo: "1007C101208", ugvclConsumerNo: "26919004879", tenantName: "મનોજસિંહ પરમાર", tenantPhone: "9099887766", rentAmount: 6500, depositAmount: 13000, depositStatus: "paid", status: "occupied" },
-        { id: 4, name: "81, Hudco, Kolavada", tenamentNo: "1007C100824", ugvclConsumerNo: "26919105284", tenantName: "ભાવનાબેન શાહ", tenantPhone: "9426058472", rentAmount: 7000, depositAmount: 0, depositStatus: "unpaid", status: "occupied" }
+        { id: 1, name: "533/1, 5B, Gandhinagar", tenamentNo: "1007A09729", waterCustomerNo: "051822", torrentCustomerId: "1007968", gasCustomerNo: "500000270187", tenantName: "રાકેશભાઈ પ્રજાપતિ", tenantPhone: "9876543210", rentAmount: 7000, depositAmount: 15000, depositStatus: "paid", status: "occupied" },
+        { id: 2, name: "2658, Dholanagar, Kolavada", tenamentNo: "1007C102107", ugvclConsumerNo: "26919022419", tenantName: "હરેશભાઈ વાઘેલા", tenantPhone: "9624589320", rentAmount: 6000, depositAmount: 16000, depositStatus: "paid", status: "occupied" },
+        { id: 3, name: "733, Vah, Kolavada", tenamentNo: "1007C101208", ugvclConsumerNo: "26919004879", tenantName: "મનોજસિંહ પરમાર", tenantPhone: "9099887766", rentAmount: 4000, depositAmount: 13000, depositStatus: "paid", status: "occupied" },
+        { id: 4, name: "81, Hudco, Kolavada", tenamentNo: "1007C100824", ugvclConsumerNo: "26919105284", tenantName: "ભાવનાબેન શાહ", tenantPhone: "9426058472", rentAmount: 500, depositAmount: 0, depositStatus: "unpaid", status: "occupied" }
     ],
     googleSheetUrl: "https://script.google.com/macros/s/AKfycbzi36UWtO2dMO9ynaZgONYzA_Dukfc4RDm_xBJiD9Frkl9sanC5O5tV3OUuqRcYD3Pl9Q/exec",
     rentPayments: [
