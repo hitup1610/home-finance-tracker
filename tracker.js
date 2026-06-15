@@ -504,10 +504,25 @@ function initApp() {
     const stored = localStorage.getItem("hitesh_home_finance_state");
     if (stored) {
         try {
-            appState = JSON.parse(stored);
+            const loadedState = JSON.parse(stored);
+            appState = loadedState; // Start with the loaded state
             
             // Overhaul houses structure to Phase 2 details to make sure mapping works
-            appState.houses = JSON.parse(JSON.stringify(DEFAULT_STATE.houses));
+            // This ensures new default properties are added, but user-modified data is preserved.
+            const newHouses = JSON.parse(JSON.stringify(DEFAULT_STATE.houses));
+            appState.houses.forEach(loadedHouse => {
+                const defaultHouse = newHouses.find(h => h.id === loadedHouse.id);
+                if (defaultHouse) {
+                    // Preserve user-modifiable fields from loadedState
+                    defaultHouse.tenantName = loadedHouse.tenantName;
+                    defaultHouse.tenantPhone = loadedHouse.tenantPhone;
+                    defaultHouse.rentAmount = loadedHouse.rentAmount;
+                    defaultHouse.depositAmount = loadedHouse.depositAmount;
+                    defaultHouse.depositStatus = loadedHouse.depositStatus;
+                    defaultHouse.status = loadedHouse.status;
+                }
+            });
+            appState.houses = newHouses;
             
             // Sync structure changes
             if (!appState.propertyTaxes) appState.propertyTaxes = [];
