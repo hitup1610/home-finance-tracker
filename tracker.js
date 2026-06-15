@@ -477,6 +477,11 @@ const DEFAULT_STATE = {
     ]
 };
 
+// Security Configuration
+const APP_CONFIG = {
+    accessPin: "1610" // અહીં તમારો મનપસંદ પિન સેટ કરો
+};
+
 // Global App State
 let appState = null;
 
@@ -493,6 +498,13 @@ let currentBobEditId = null;
 
 // Initialize State with Backward Compatibility and Migration
 function initApp() {
+    // Check Authentication first
+    if (sessionStorage.getItem("hitesh_auth") === "true") {
+        document.getElementById("login-screen").style.display = "none";
+    } else {
+        document.getElementById("login-screen").style.display = "flex";
+    }
+
     const stored = localStorage.getItem("hitesh_home_finance_state");
     if (stored) {
         try {
@@ -535,6 +547,28 @@ function initApp() {
     
     // Populate select dropdowns for houses dynamically
     populateHouseDropdowns();
+}
+
+// Handle Login Logic
+function handleLogin() {
+    const pinInput = document.getElementById("login-pin");
+    const errorMsg = document.getElementById("login-error");
+    
+    if (pinInput.value === APP_CONFIG.accessPin) {
+        sessionStorage.setItem("hitesh_auth", "true");
+        document.getElementById("login-screen").style.opacity = "0";
+        setTimeout(() => {
+            document.getElementById("login-screen").style.display = "none";
+        }, 300);
+        errorMsg.style.display = "none";
+    } else {
+        errorMsg.style.display = "block";
+        pinInput.value = "";
+        pinInput.focus();
+        // Simple shake effect
+        document.querySelector(".login-card").style.animation = "none";
+        setTimeout(() => document.querySelector(".login-card").style.animation = "fadeIn 0.4s ease", 10);
+    }
 }
 
 // Save State to LocalStorage
