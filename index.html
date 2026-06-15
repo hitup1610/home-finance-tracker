@@ -752,16 +752,21 @@
             </header>
             <form id="rent-form">
                 <div class="modal-body">
+                    <div class="form-group">
+                        <label for="rent-house-id" data-i18n="selectHouse">મકાન પસંદ કરો</label>
+                        <select id="rent-house-id" class="form-control" required>
+                            <!-- Occupied houses populated dynamically -->
+                        </select>
+                    </div>
+
                     <div class="form-grid-2">
-                        <div class="form-group">
-                            <label for="rent-house-id" data-i18n="selectHouse">મકાન પસંદ કરો</label>
-                            <select id="rent-house-id" class="form-control" required>
-                                <!-- Occupied houses populated dynamically -->
-                            </select>
-                        </div>
                         <div class="form-group">
                             <label for="rent-tenant-name" data-i18n="tenantLabel">ભાડુઆતનું નામ</label>
                             <input type="text" id="rent-tenant-name" class="form-control" placeholder="ભાડુઆતનું નામ">
+                        </div>
+                        <div class="form-group">
+                            <label for="rent-tenant-phone" data-i18n="phoneLabel">મોબાઈલ નંબર</label>
+                            <input type="tel" id="rent-tenant-phone" class="form-control" placeholder="મોબાઈલ નંબર">
                         </div>
                     </div>
                     
