@@ -1773,6 +1773,7 @@ function openRentPaymentModal(houseId = null) {
         if (house) {
             document.getElementById("rent-amount").value = house.rentAmount;
             document.getElementById("rent-tenant-name").value = house.tenantName || "";
+            document.getElementById("rent-tenant-phone").value = house.tenantPhone || "";
         }
     }
     document.getElementById("modal-add-rent-title").textContent = TRANSLATIONS[appState.lang].modalAddRentTitle;
@@ -1786,6 +1787,7 @@ function handleRentHouseChange(event) {
     if (house) {
         document.getElementById("rent-amount").value = house.rentAmount;
         document.getElementById("rent-tenant-name").value = house.tenantName || "";
+        document.getElementById("rent-tenant-phone").value = house.tenantPhone || "";
     }
 }
 
@@ -1793,6 +1795,7 @@ function handleAddRentSubmit(event) {
     event.preventDefault();
     const houseId = parseInt(document.getElementById("rent-house-id").value, 10);
     const tenantName = document.getElementById("rent-tenant-name").value;
+    const tenantPhone = document.getElementById("rent-tenant-phone").value;
     const amount = parseInt(document.getElementById("rent-amount").value, 10);
     const payMonth = document.getElementById("rent-pay-month").value;
     const payDate = document.getElementById("rent-pay-date").value;
@@ -1802,8 +1805,9 @@ function handleAddRentSubmit(event) {
 
     // Update tenant name in the master house record if changed
     const house = appState.houses.find(h => h.id === houseId);
-    if (house && tenantName) {
-        house.tenantName = tenantName;
+    if (house) {
+        if (tenantName) house.tenantName = tenantName;
+        if (tenantPhone) house.tenantPhone = tenantPhone;
     }
 
     if (currentRentEditId) {
@@ -2317,6 +2321,13 @@ function openEditRentModal(id) {
     if (!p) return;
     currentRentEditId = id;
     document.getElementById("rent-house-id").value = p.houseId;
+    
+    const house = appState.houses.find(h => h.id === p.houseId);
+    if (house) {
+        document.getElementById("rent-tenant-name").value = house.tenantName || "";
+        document.getElementById("rent-tenant-phone").value = house.tenantPhone || "";
+    }
+
     document.getElementById("rent-pay-month").value = p.monthYear;
     document.getElementById("rent-amount").value = p.amount;
     document.getElementById("rent-pay-date").value = p.datePaid;
