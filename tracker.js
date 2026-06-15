@@ -326,7 +326,7 @@ const DEFAULT_STATE = {
         { id: 3, name: "733, Vah, Kolavada", tenamentNo: "1007C101208", ugvclConsumerNo: "26919004879", tenantName: "મનોજસિંહ પરમાર", tenantPhone: "9099887766", rentAmount: 6500, depositAmount: 13000, depositStatus: "paid", status: "occupied" },
         { id: 4, name: "81, Hudco, Kolavada", tenamentNo: "1007C100824", ugvclConsumerNo: "26919105284", tenantName: "ભાવનાબેન શાહ", tenantPhone: "9426058472", rentAmount: 7000, depositAmount: 0, depositStatus: "unpaid", status: "occupied" }
     ],
-    googleSheetUrl: "",
+    googleSheetUrl: "https://script.google.com/macros/s/AKfycbzi36UWtO2dMO9ynaZgONYzA_Dukfc4RDm_xBJiD9Frkl9sanC5O5tV3OUuqRcYD3Pl9Q/exec",
     rentPayments: [
         { id: "rp1", houseId: 1, monthYear: "2026-05", amount: 7500, datePaid: "2026-05-05", paymentMode: "GPay", status: "paid", note: "ચોકસાઈથી જમા" },
         { id: "rp2", houseId: 2, monthYear: "2026-05", amount: 8000, datePaid: "2026-05-06", paymentMode: "Bank", status: "paid", note: "બેંક ટ્રાન્સફર" },
@@ -509,7 +509,7 @@ function initApp() {
             if (!appState.ugvclBills) appState.ugvclBills = [];
             if (!appState.dailyExpenses) appState.dailyExpenses = [];
             if (!appState.transactions) appState.transactions = [];
-            if (!appState.googleSheetUrl) appState.googleSheetUrl = "";
+            if (!appState.googleSheetUrl) appState.googleSheetUrl = "https://script.google.com/macros/s/AKfycbzi36UWtO2dMO9ynaZgONYzA_Dukfc4RDm_xBJiD9Frkl9sanC5O5tV3OUuqRcYD3Pl9Q/exec";
             
             // Sync BOB Transactions list
             if (!appState.bobTransactions) {
@@ -1555,6 +1555,48 @@ function renderBackupSettings() {
     // Populate GSheet URL input if exists
     const gInput = document.getElementById("gsheet-url");
     if (gInput) gInput.value = appState.googleSheetUrl || "";
+}
+
+// Save Google Sheet URL to state
+function saveGoogleSheetUrl() {
+    const url = document.getElementById("gsheet-url").value.trim();
+    appState.googleSheetUrl = url;
+    saveState();
+    alert(appState.lang === "gu" ? "URL સેવ થઈ ગઈ!" : "URL Saved Successfully!");
+}
+
+// Sync data to Google Sheets via Apps Script
+async function syncToGoogleSheets() {
+    // Get the latest URL from input field in case user didn't click save
+    const urlInput = document.getElementById("gsheet-url");
+    const currentUrl = urlInput ? urlInput.value.trim() : appState.googleSheetUrl;
+
+    if (!currentUrl) {
+        alert(appState.lang === "gu" ? "કૃપા કરીને પહેલા URL સેટ કરો." : "Please set the Google Apps Script URL first.");
+        return;
+    }
+
+    const btn = document.querySelector(".btn-sync-cloud");
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Syncing...';
+    btn.disabled = true;
+
+    try {
+        await fetch(currentUrl, {
+            method: 'POST',
+            mode: 'no-cors', // standard for simple Apps Script triggers
+            cache: 'no-cache',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify(appState)
+        });
+        alert(TRANSLATIONS[appState.lang].syncSuccess);
+    } catch (error) {
+        console.error("Sync error:", error);
+        alert(TRANSLATIONS[appState.lang].syncError);
+    } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    }
 }
 
 // Open Edit House Config Modal
