@@ -1669,7 +1669,10 @@ async function syncToGoogleSheets() {
 
 // Google Sheet માંથી ડેટા ડાઉનલોડ કરીને આ સિસ્ટમમાં અપડેટ કરવા માટે
 async function importFromGoogleSheets() {
-    const url = appState.googleSheetUrl ? appState.googleSheetUrl.trim() : null;
+    // પ્લેસહોલ્ડર કે ઇનપુટ માંથી લેટેસ્ટ URL લો
+    const urlInput = document.getElementById("gsheet-url");
+    const url = (urlInput && urlInput.value.trim() !== "") ? urlInput.value.trim() : (appState.googleSheetUrl ? appState.googleSheetUrl.trim() : null);
+
     if (!url) {
         alert(appState.lang === "gu" ? "કૃપા કરીને પહેલા URL સેટ કરો." : "Please set the URL first.");
         return;
@@ -1677,42 +1680,50 @@ async function importFromGoogleSheets() {
 
     if (!confirm(appState.lang === "gu" ? "શું તમે Google Sheet માંથી ડેટા લોડ કરવા માંગો છો? આનાથી અત્યારનો લોકલ ડેટા બદલાઈ જશે." : "Load data from Google Sheet? This will overwrite local data.")) return;
 
+    console.log("Fetching from URL:", url); // Debugging માટે
+
     try {
-        // જો યુઝરે ભૂલથી શીટનું URL નાખ્યું હોય તો ચેક કરો
         if (url.includes("docs.google.com/spreadsheets")) {
             throw new Error(appState.lang === "gu" ? "તમે શીટનું URL નાખ્યું છે. કૃપા કરીને Apps Script નું Web App URL નાખો." : "You entered Spreadsheet URL. Please use Web App URL.");
         }
 
-        // Explicit GET request with redirect following
-        const response = await fetch(url, { method: 'GET', redirect: 'follow' });
+        // બ્રાઉઝર કેશ બાયપાસ કરવા માટે ટાઈમસ્ટેમ્પ ઉમેર્યો
+        const fetchUrl = url + (url.includes('?') ? '&' : '?') + 't=' + Date.now();
+
+        const response = await fetch(fetchUrl, { 
+            method: 'GET'
+        });
         
         if (!response.ok) {
             throw new Error(`HTTP status ${response.status}`);
         }
 
-        const cloudData = await response.json();
-
-        if (cloudData && typeof cloudData === 'object') {
-            // Cloud data માં જો એરર હોય તો
-            if (cloudData.success === false) {
-                throw new Error(cloudData.error || "Unknown server error");
-            }
-
-            Object.keys(cloudData).forEach(key => {
-                if (Array.isArray(cloudData[key])) {
-                    // જો Houses લોડ કરતા હોઈએ અને તારીખ ના હોય તો આજની તારીખ સેટ કરવી
-                    if (key === 'houses') {
-                        cloudData[key].forEach(h => { if (!h.date) h.date = new Date().toISOString().split('T')[0]; });
+            try {
+                const cloudData = await response.json();
+                if (cloudData && typeof cloudData === 'object') {
+                    // Cloud data માં જો એરર હોય તો
+                    if (cloudData.success === false) {
+                        throw new Error(cloudData.error || "Unknown server error");
                     }
-                    appState[key] = cloudData[key];
+
+                    Object.keys(cloudData).forEach(key => {
+                        if (Array.isArray(cloudData[key])) {
+                            // જો Houses લોડ કરતા હોઈએ અને તારીખ ના હોય તો આજની તારીખ સેટ કરવી
+                            if (key === 'houses') {
+                                cloudData[key].forEach(h => { if (!h.date) h.date = new Date().toISOString().split('T')[0]; });
+                            }
+                            appState[key] = cloudData[key];
+                        }
+                    });
+                    saveState();
+                    initApp(); // Refresh the whole UI
+                    alert(appState.lang === "gu" ? "ડેટા સફળતાપૂર્વક લોડ થઈ ગયો!" : "Data loaded successfully!");
+                } else {
+                    throw new Error("Invalid data format from sheet");
                 }
-            });
-            saveState();
-            initApp(); // Refresh the whole UI
-            alert(appState.lang === "gu" ? "ડેટા સફળતાપૂર્વક લોડ થઈ ગયો!" : "Data loaded successfully!");
-        } else {
-            throw new Error("Invalid data format from sheet");
-        }
+            } catch (jsonError) {
+                throw new Error(appState.lang === "gu" ? "Google Script એ JSON ને બદલે ખોટો જવાબ આપ્યો. સ્ક્રિપ્ટ એરર હોઈ શકે." : "Google Script sent non-JSON response. Might be a script error.");
+            }
     } catch (error) {
         console.error("Load error:", error);
         let msg = appState.lang === "gu" ? "ડેટા લોડ કરવામાં ભૂલ થઈ: " : "Error loading data: ";
