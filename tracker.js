@@ -1667,6 +1667,39 @@ async function syncToGoogleSheets() {
     }
 }
 
+// Google Sheet માંથી ડેટા ડાઉનલોડ કરીને આ સિસ્ટમમાં અપડેટ કરવા માટે
+async function importFromGoogleSheets() {
+    const url = appState.googleSheetUrl;
+    if (!url) {
+        alert(appState.lang === "gu" ? "કૃપા કરીને પહેલા URL સેટ કરો." : "Please set the URL first.");
+        return;
+    }
+
+    if (!confirm(appState.lang === "gu" ? "શું તમે Google Sheet માંથી ડેટા લોડ કરવા માંગો છો? આનાથી અત્યારનો લોકલ ડેટા બદલાઈ જશે." : "Load data from Google Sheet? This will overwrite local data.")) return;
+
+    try {
+        const response = await fetch(url);
+        const cloudData = await response.json();
+
+        if (cloudData && cloudData.houses) {
+            // Merge cloud data into appState
+            Object.keys(cloudData).forEach(key => {
+                if (Array.isArray(cloudData[key])) {
+                    appState[key] = cloudData[key];
+                }
+            });
+            saveState();
+            initApp(); // Refresh the whole UI
+            alert(appState.lang === "gu" ? "ડેટા સફળતાપૂર્વક લોડ થઈ ગયો!" : "Data loaded successfully!");
+        } else {
+            throw new Error("Invalid data format from sheet");
+        }
+    } catch (error) {
+        console.error("Load error:", error);
+        alert(appState.lang === "gu" ? "ડેટા લોડ કરવામાં ભૂલ થઈ." : "Error loading data.");
+    }
+}
+
 // Open Edit House Config Modal
 function openConfigureHouseModal(houseId) {
     const modal = document.getElementById("modal-edit-house");
