@@ -1681,7 +1681,7 @@ async function importFromGoogleSheets() {
         const response = await fetch(url);
         const cloudData = await response.json();
 
-        if (cloudData && cloudData.houses) {
+        if (cloudData && (cloudData.houses || cloudData.rentPayments)) {
             // Merge cloud data into appState
             Object.keys(cloudData).forEach(key => {
                 if (Array.isArray(cloudData[key])) {
