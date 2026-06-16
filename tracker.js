@@ -1669,7 +1669,7 @@ async function syncToGoogleSheets() {
 
 // Google Sheet માંથી ડેટા ડાઉનલોડ કરીને આ સિસ્ટમમાં અપડેટ કરવા માટે
 async function importFromGoogleSheets() {
-    const url = appState.googleSheetUrl;
+    const url = appState.googleSheetUrl ? appState.googleSheetUrl.trim() : null;
     if (!url) {
         alert(appState.lang === "gu" ? "કૃપા કરીને પહેલા URL સેટ કરો." : "Please set the URL first.");
         return;
@@ -1678,10 +1678,11 @@ async function importFromGoogleSheets() {
     if (!confirm(appState.lang === "gu" ? "શું તમે Google Sheet માંથી ડેટા લોડ કરવા માંગો છો? આનાથી અત્યારનો લોકલ ડેટા બદલાઈ જશે." : "Load data from Google Sheet? This will overwrite local data.")) return;
 
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, { method: 'GET' });
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const cloudData = await response.json();
 
-        if (cloudData && (cloudData.houses || cloudData.rentPayments)) {
+        if (cloudData && typeof cloudData === 'object') {
             // Merge cloud data into appState
             Object.keys(cloudData).forEach(key => {
                 if (Array.isArray(cloudData[key])) {
@@ -1696,7 +1697,7 @@ async function importFromGoogleSheets() {
         }
     } catch (error) {
         console.error("Load error:", error);
-        alert(appState.lang === "gu" ? "ડેટા લોડ કરવામાં ભૂલ થઈ." : "Error loading data.");
+        alert((appState.lang === "gu" ? "ડેટા લોડ કરવામાં ભૂલ થઈ: " : "Error loading data: ") + error.message);
     }
 }
 
