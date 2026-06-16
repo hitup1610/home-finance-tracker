@@ -1585,6 +1585,15 @@ async function importFromGoogleSheets() {
                             if (key === 'houses') {
                                 cloudData[key].forEach(h => { if (!h.date) h.date = new Date().toISOString().split('T')[0]; });
                             }
+                            
+                            // ખાતરી કરો કે રકમ વાળા ખાના નંબર તરીકે જ રહે
+                            cloudData[key].forEach(item => {
+                                if (item.amount !== undefined) item.amount = Number(item.amount);
+                                if (item.rentAmount !== undefined) item.rentAmount = Number(item.rentAmount);
+                                if (item.depositAmount !== undefined) item.depositAmount = Number(item.depositAmount);
+                                if (item.rate !== undefined) item.rate = Number(item.rate);
+                                if (item.liters !== undefined) item.liters = Number(item.liters);
+                            });
                             appState[key] = cloudData[key];
                         }
                     });
