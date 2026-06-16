@@ -415,6 +415,7 @@ function initApp() {
     setLanguage(appState.lang || "gu");
     
     // Set active navigation tab (default: Dashboard)
+    console.log("initApp: appState after loading/merging:", appState); // Add this for debugging
     switchTab("dashboard");
     
     // Setup Event Listeners
@@ -1573,6 +1574,7 @@ async function importFromGoogleSheets() {
                     }
 
                     // ખાતરી કરો કે 'houses' કે 'rentPayments' જેવી મુખ્ય વિગતો ડેટામાં છે
+                    console.log("importFromGoogleSheets: cloudData received:", cloudData); // Add this for debugging
                     if (!cloudData.houses && !cloudData.rentPayments) {
                         throw new Error(appState.lang === "gu" ? "શીટમાં ડેટા મળ્યો નથી." : "No data found in sheet.");
                     }
@@ -1587,7 +1589,9 @@ async function importFromGoogleSheets() {
                         }
                     });
                     saveState();
-                    initApp(); // Refresh the whole UI
+                    // After importing, just re-render the current view, no need to re-initialize the whole app
+                    const activeTab = document.querySelector(".menu-item.active")?.getAttribute("data-tab") || "dashboard";
+                    renderView(activeTab);
                     alert(appState.lang === "gu" ? "ડેટા સફળતાપૂર્વક લોડ થઈ ગયો!" : "Data loaded successfully!");
                 } else {
                     throw new Error("Invalid data format from sheet");
