@@ -349,6 +349,10 @@ body {
     gap: 24px;
 }
 
+.utilities-grid {
+    grid-template-columns: 1fr 1fr; /* UGVCL ટેબલ માટે વધારે જગ્યા આપવા માટે */
+}
+
 .dashboard-panel {
     background-color: var(--bg-white);
     backdrop-filter: blur(16px);
@@ -360,6 +364,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    min-width: 0; /* ગ્રીડ કોલમને ટેબલના કારણે બહાર નીકળતા રોકે છે */
 }
 
 .panel-header {
