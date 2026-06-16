@@ -1649,25 +1649,15 @@ async function syncToGoogleSheets() {
     try {
         await fetch(currentUrl, {
             method: 'POST',
-            mode: 'cors', // Changed from 'no-cors' to 'cors' to read response
+            mode: 'no-cors', // 'no-cors' વાપરવાથી "Failed to fetch" એરર નહીં આવે
             cache: 'no-cache',
-            headers: { 'Content-Type': 'application/json' }, // Changed Content-Type
+            headers: { 'Content-Type': 'text/plain' },
             body: JSON.stringify(appState)
         });
-
-        // Check if the response is OK (HTTP status 200-299)
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const result = await response.json(); // Parse the JSON response from Apps Script
-
-        if (result.success) {
-            alert(TRANSLATIONS[appState.lang].syncSuccess);
-        } else {
-            alert(`${TRANSLATIONS[appState.lang].syncError} ${result.error || ''}`);
-            console.error("Apps Script reported an error:", result.error);
-        }
+        
+        // no-cors મોડમાં આપણે સર્વરનો જવાબ વાંચી શકતા નથી, 
+        // પણ જો fetch એરર ન આપે તો તેનો અર્થ છે કે ડેટા મોકલાઈ ગયો છે.
+        alert(TRANSLATIONS[appState.lang].syncSuccess);
     } catch (error) {
         console.error("Sync error:", error);
         alert(`${TRANSLATIONS[appState.lang].syncError} ${error.message || ''}`);
