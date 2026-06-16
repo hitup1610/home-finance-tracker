@@ -321,159 +321,34 @@ const TRANSLATIONS = {
 const DEFAULT_STATE = {
     lang: "gu", // default language is Gujarati
     houses: [
-        { id: 1, date: "2024-01-01", name: "533/1, 5B, Gandhinagar", tenamentNo: "1007A09729", waterCustomerNo: "051822", torrentCustomerId: "1007968", gasCustomerNo: "500000270187", tenantName: "રાકેશભાઈ પ્રજાપતિ", tenantPhone: "9876543210", rentAmount: 7000, depositAmount: 15000, depositStatus: "paid", status: "occupied" },
-        { id: 2, date: "2024-01-01", name: "2658, Dholanagar, Kolavada", tenamentNo: "1007C102107", ugvclConsumerNo: "26919022419", tenantName: "હરેશભાઈ વાઘેલા", tenantPhone: "9624589320", rentAmount: 6000, depositAmount: 16000, depositStatus: "paid", status: "occupied" },
-        { id: 3, date: "2024-01-01", name: "733, Vah, Kolavada", tenamentNo: "1007C101208", ugvclConsumerNo: "26919004879", tenantName: "મનોજસિંહ પરમાર", tenantPhone: "9099887766", rentAmount: 4000, depositAmount: 13000, depositStatus: "paid", status: "occupied" },
-        { id: 4, date: "2024-01-01", name: "81, Hudco, Kolavada", tenamentNo: "1007C100824", ugvclConsumerNo: "26919105284", tenantName: "ભાવનાબેન શાહ", tenantPhone: "9426058472", rentAmount: 500, depositAmount: 0, depositStatus: "unpaid", status: "occupied" }
+        { id: 1, date: "2024-01-01", name: "533/1, 5B, Gandhinagar", tenamentNo: "1007A09729", waterCustomerNo: "051822", torrentCustomerId: "1007968", gasCustomerNo: "500000270187", tenantName: "", tenantPhone: "", rentAmount: 0, depositAmount: 0, depositStatus: "unpaid", status: "vacant" },
+        { id: 2, date: "2024-01-01", name: "2658, Dholanagar, Kolavada", tenamentNo: "1007C102107", ugvclConsumerNo: "26919022419", tenantName: "", tenantPhone: "", rentAmount: 0, depositAmount: 0, depositStatus: "unpaid", status: "vacant" },
+        { id: 3, date: "2024-01-01", name: "733, Vah, Kolavada", tenamentNo: "1007C101208", ugvclConsumerNo: "26919004879", tenantName: "", tenantPhone: "", rentAmount: 0, depositAmount: 0, depositStatus: "unpaid", status: "vacant" },
+        { id: 4, date: "2024-01-01", name: "81, Hudco, Kolavada", tenamentNo: "1007C100824", ugvclConsumerNo: "26919105284", tenantName: "", tenantPhone: "", rentAmount: 0, depositAmount: 0, depositStatus: "unpaid", status: "vacant" }
     ],
     googleSheetUrl: "https://script.google.com/macros/s/AKfycbxSAcpxELvBFiepXyEgznqdRGrDFGJpnDiU2gamXYetDGU5XAc_Ckn5uaOWBw8U2te7/exec",
     rentPayments: [
-        { id: "rp1", houseId: 1, monthYear: "2026-05", amount: 7500, datePaid: "2026-05-05", paymentMode: "GPay", status: "paid", note: "ચોકસાઈથી જમા" },
-        { id: "rp2", houseId: 2, monthYear: "2026-05", amount: 8000, datePaid: "2026-05-06", paymentMode: "Bank", status: "paid", note: "બેંક ટ્રાન્સફર" },
-        { id: "rp3", houseId: 3, monthYear: "2026-05", amount: 6500, datePaid: "2026-05-04", paymentMode: "Cash", status: "paid", note: "હાથોહાથ રોકડા" },
-        { id: "rp4", houseId: 4, monthYear: "2026-05", amount: 7000, datePaid: "2026-05-07", paymentMode: "GPay", status: "paid", note: "આખો મહિનો પૂરો થયો" },
-        { id: "rp5", houseId: 1, monthYear: "2026-06", amount: 7500, datePaid: "2026-06-03", paymentMode: "GPay", status: "paid", note: "ચાલુ મહિનાનું જમા" }
+        // Samples removed to prevent old history from reappearing
     ],
     propertyTaxes: [
-        { id: "pt1", houseId: 1, year: "2025-26", tenamentNo: "1007A09729", amount: 4800, datePaid: "2025-07-15", refNo: "TX-48293", note: "Ghar Vero 533/1" },
-        { id: "pt2", houseId: 2, year: "2025-26", tenamentNo: "1007C102107", amount: 3500, datePaid: "2025-07-20", refNo: "TX-93849", note: "Dholanagar Tax" }
     ],
     waterTaxes: [
-        { id: "wt1", year: "2025-26", customerNo: "051822", amount: 1200, datePaid: "2025-08-05", refNo: "WT-384928", note: "પાણી-ગટર વેરો ચૂકવ્યો" }
     ],
     torrentBills: [
-        { id: "tb1", customerId: "1007968", period: "Mar-Apr 2026", amount: 3450, datePaid: "2026-05-08", refNo: "TOR-948293", note: "533/1 Torrent Power" }
     ],
     gasBills: [
-        { id: "gb1", customerNo: "500000270187", period: "Mar-Apr 2026", amount: 720, datePaid: "2026-05-12", refNo: "GAS-382910", note: "533/1 Gujarat Gas" }
     ],
     ugvclBills: [
-        { id: "ub1", houseId: 3, consumerNo: "26919004879", period: "Mar-Apr 2026", amount: 1520, datePaid: "2026-05-15", paidBy: "tenant", refNo: "UGV-738210", note: "ભાડુઆતે આપેલું બિલ પત્રક" }
     ],
     milkBills: [
-        { id: "mk1", monthYear: "2026-05", vendorName: "લક્ષ્મી ડેરી", liters: 45, rate: 68, amount: 3060, datePaid: "2026-06-02", note: "મે મહિનાનું દૂધનું બિલ" },
-        { id: "mk2", monthYear: "2026-04", vendorName: "લક્ષ્મી ડેરી", liters: 42, rate: 68, amount: 2856, datePaid: "2026-05-03", note: "એપ્રિલ મહિનાનું ચૂકવ્યું" }
     ],
     dailyExpenses: [
-        { id: "de1", date: "2026-06-02", description: "શાકભાજી અને કરીયાણું", amount: 480, category: "household", paymentMode: "Cash", note: "" },
-        { id: "de2", date: "2026-06-05", description: "નળ રીપેરીંગ 533/1 ખર્ચ", amount: 320, category: "maintenance", paymentMode: "Cash", note: "પ્લમ્બર ખર્ચ" }
     ],
     transactions: [], // general transactions
     
     // Transcribed Bank of Baroda Debits History
     bobTransactions: [
-        // 2026
-        { id: "bob_1", date: "2026-06-10", narration: "MBK/616186724808/13:53:15/", amount: 5220, description: "Torrent Power Bill" },
-        { id: "bob_2", date: "2026-06-09", narration: "IMPS/P2A/616010057630/Mon", amount: 12280, description: "Mandir banava mate umrana" },
-        { id: "bob_3", date: "2026-05-10", narration: "MBK/613091458235/134623", amount: 1565, description: "Gas Bill" },
-        { id: "bob_4", date: "2026-04-28", narration: "ATM/CASH/6341/xxxxxxxxxxxx2913", amount: 15080, description: "Kalol Mahraj ne Pathna" },
-        { id: "bob_5", date: "2026-04-24", narration: "PRCR/GMCPROPERTYTAX/GandhiNag", amount: 860, description: "GMC Property Tax Dholanagar" },
-        { id: "bob_6", date: "2026-04-24", narration: "PRCR/GMCPROPERTYTAX/GandhiNag", amount: 681, description: "GMC Property Tax Hudco" },
-        { id: "bob_7", date: "2026-04-21", narration: "PRCR/GMCPROPERTYTAX/GandhiNag", amount: 653, description: "GMC Property Tax Vah" },
-        { id: "bob_8", date: "2026-04-21", narration: "PRCR/GMCPROPERTYTAX/GandhiNag", amount: 2730, description: "GMC Property Tax 533/1" },
-        { id: "bob_9", date: "2026-04-16", narration: "IMPS/P2A/610620766512/Sch", amount: 10080, description: "Chhotu School Fees" },
-        { id: "bob_10", date: "2026-04-15", narration: "MBK/610554603197/10:03:59", amount: 3750, description: "Torrent Power Bill" },
-        { id: "bob_11", date: "2026-04-10", narration: "IMPS/P2A/610018873889/Mon", amount: 10080, description: "Kalol Mahraj ne Pathna" },
-        { id: "bob_12", date: "2026-03-03", narration: "MBK/606234731616/16:04:52/", amount: 1422.8, description: "Gas Bill" },
-        { id: "bob_13", date: "2026-02-20", narration: "PRCR/LUCKY SWAGAT JEWELS L/GANDHINAG", amount: 21500, description: "Sona no doro (Gold chain)" },
-        { id: "bob_14", date: "2026-02-19", narration: "PRCR/SHWETA FASHION/GANDHI NA", amount: 2175, description: "Kapda" },
-        { id: "bob_15", date: "2026-02-16", narration: "SELF", amount: 90000, description: "Sona no doro (Gold chain)" },
-        { id: "bob_16", date: "2026-02-14", narration: "ATM/CASH/361/xxxxxxxxxxxx2913", amount: 8000, description: "Sona no doro (Gold chain)" },
-        { id: "bob_17", date: "2026-02-14", narration: "ATM/CASH/359/xxxxxxxxxxxx2913", amount: 15000, description: "Sona no doro" },
-        { id: "bob_18", date: "2026-02-14", narration: "PRCR/M S SHREEJI ORNA/GANDHINAG", amount: 5300, description: "Payal Chandi ni" },
-        { id: "bob_19", date: "2026-02-10", narration: "MBK/604130497720/09:55:22/", amount: 3650, description: "Torrent Power Bill" },
-        { id: "bob_20", date: "2026-01-20", narration: "PRCR/DGVCL/SURAT", amount: 1572, description: "UGVCL Light Bill" },
-        { id: "bob_21", date: "2026-01-10", narration: "MBK/600687949556/17:02:43/", amount: 1256, description: "Gas Bill" },
-        
-        // 2025
-        { id: "bob_22", date: "2025-12-11", narration: "MBK/534513428306/11:08:25/", amount: 4590, description: "Torrent Power Bill" },
-        { id: "bob_23", date: "2025-11-24", narration: "IMPS/P2A/532818104756/xxxxxxxxxx1807/MonthlyTrans", amount: 40000, description: "Shrimant" },
-        { id: "bob_24", date: "2025-11-21", narration: "ATM/CASH/532614012597/xxxxxxxxxxxx2913", amount: 10000, description: "Shrimant" },
-        { id: "bob_25", date: "2025-11-21", narration: "ATM/CASH/53252008503/xxxxxxxxxxxx2913", amount: 10000, description: "Shrimant" },
-        { id: "bob_26", date: "2025-11-11", narration: "IMPS/P2A/53190924145/xxxxxxxxxx1807/MonthlyTrans", amount: 30000, description: "Shrimant" },
-        { id: "bob_27", date: "2025-11-08", narration: "PRCR/UGVCLREC/Mumbai", amount: 2238, description: "UGVCL Light Bill" },
-        { id: "bob_28", date: "2025-11-05", narration: "ATM/CASH/530917028565/xxxxxxxxxxxx2913", amount: 10000, description: "Mom ne ghar kharch mate Upadi ne aapela" },
-        { id: "bob_29", date: "2025-11-03", narration: "MBK/530707521634/12:09:38/", amount: 1938, description: "Gas Bill" },
-        { id: "bob_30", date: "2025-10-22", narration: "ATM/CASH/7835/xxxxxxxxxxxx2913", amount: 5000, description: "Dipawali New Year mate badha ne aapva" },
-        { id: "bob_31", date: "2025-10-12", narration: "IMPS/P2A/528514524284/xxxxxxxxxx1807/TorRent", amount: 15000, description: "TV" },
-        { id: "bob_32", date: "2025-10-09", narration: "MBK/528247209531/10:57:52/", amount: 6010, description: "Torrent Power Bill" },
-        { id: "bob_33", date: "2025-10-08", narration: "MBK/528147197154/10:57:11/", amount: 1256, description: "Gas Bill" },
-        { id: "bob_34", date: "2025-09-25", narration: "ATM/CASH/526812084348/xxxxxxxxxxxx2913", amount: 5000, description: "Abu Gayela mom to upadela" },
-        { id: "bob_35", date: "2025-08-03", narration: "MBK/521513155072/10:59:11/", amount: 5610, description: "Torrent Power Bill" },
-        { id: "bob_36", date: "2025-08-03", narration: "MBK/521316374011/11:35:34/", amount: 3267, description: "Gas Bill" },
-        { id: "bob_37", date: "2025-06-27", narration: "PRCR/CBDT/GURGAON", amount: 48000, description: "Income Tax return" },
-        { id: "bob_38", date: "2025-06-25", narration: "IMPS/P2A/517609105475", amount: 17080, description: "Chhotu School fees" },
-        { id: "bob_39", date: "2025-06-15", narration: "MBK/516615851218/01:38:29/", amount: 5520, description: "Torrent Power Bill" },
-        { id: "bob_40", date: "2025-05-29", narration: "IMPS/P2A/514918080081/xxxxxxxxxx1807/MonthlyTrans", amount: 16080, description: "The Gandhinagar Nagarik Bank" },
-        { id: "bob_41", date: "2025-04-30", narration: "PRCR/GMCPROPERTYTAX/GandhiNag", amount: 515, description: "GMC Property Tax Hudco" },
-        { id: "bob_42", date: "2025-04-30", narration: "IMPS/P2A/512011122711/xxxxxxxxxx1807/MonthlyTrans", amount: 25080, description: "Jigneshbhai Reliance Nippon Life Insurance" },
-        { id: "bob_43", date: "2025-04-28", narration: "PRCR/GMCPROPERTYTAX/GandhiNag", amount: 860, description: "GMC Property Tax Dholanagar" },
-        { id: "bob_44", date: "2025-04-26", narration: "PRCR/GMCPROPERTYTAX/GandhiNag", amount: 653, description: "GMC Property Tax Vah" },
-        { id: "bob_45", date: "2025-04-26", narration: "PRCR/GMCPROPERTYTAX/GandhiNag", amount: 2730, description: "GMC Property Tax 533/1" },
-        { id: "bob_46", date: "2025-04-13", narration: "MBK/510316949360/18:46:03/", amount: 4180, description: "Torrent Power Bill" },
-        { id: "bob_47", date: "2025-04-09", narration: "IMPS/P2A/509910487913/xxxxxxxxxx1807/MonthlySubsc", amount: 20080, description: "Jigneshbhai" },
-        { id: "bob_48", date: "2025-04-03", narration: "PRCR/AN/AB JWELLERS/GANDHINAG", amount: 17080, description: "Vinti (Ring)" },
-        { id: "bob_49", date: "2025-03-09", narration: "IMPS/P2A/506815339415/xxxxxxxxxx1807/MonthlySubsc", amount: 15080, description: "Jigneshbhai" },
-        { id: "bob_50", date: "2025-03-07", narration: "IMPS/P2A/506612140730/xxxxxxxxxx1807/Watertax", amount: 10080, description: "Manishpanchal ne" },
-        { id: "bob_51", date: "2025-02-27", narration: "IMPS/P2A/505813123891/xxxxxxxxxx1807/Watertax", amount: 25080, description: "Badi" },
-        { id: "bob_52", date: "2025-02-20", narration: "CHARGES FOR ATM/CASH/FIN/xxxxxxxxxxxx2913", amount: 11.8, description: "SMS charges" },
-        { id: "bob_53", date: "2025-01-30", narration: "ATM/CASH/3518/xxxxxxxxxxxx2913", amount: 10080, description: "Upadina Mom ne aapya" },
-        { id: "bob_54", date: "2025-01-20", narration: "ATM/CASH/3507/xxxxxxxxxxxx2913", amount: 10080, description: "Upadina Mom ne aapya" },
-        { id: "bob_55", date: "2025-01-15", narration: "TO CASH", amount: 10080, description: "Upadina Mom ne aapya (Margashira)" },
-        { id: "bob_56", date: "2025-01-16", narration: "MBK/501617302917/17:41:41/", amount: 1755, description: "Gas Bill" },
-        { id: "bob_57", date: "2025-01-08", narration: "ATM/CASH/3391/xxxxxxxxxxxx2913", amount: 10080, description: "Upadina Mom ne aapya" },
-        { id: "bob_58", date: "2025-01-05", narration: "ATM/CASH/3389/xxxxxxxxxxxx2913", amount: 10080, description: "Upadina Mom ne aapya" },
-        { id: "bob_59", date: "2025-01-01", narration: "ATM/CASH/3382/xxxxxxxxxxxx2913", amount: 15080, description: "Upadina Mom ne aapya" },
-        { id: "bob_60", date: "2025-01-02", narration: "ATM/CASH/3385/xxxxxxxxxxxx2913", amount: 10080, description: "Upadina Mom ne aapya" },
-        { id: "bob_61", date: "2025-02-10", narration: "MBK/504110314112/10:40:17/", amount: 2730, description: "Torrent Power Bill" },
-        { id: "bob_62", date: "2025-07-16", narration: "ATM/CASH/755/xxxxxxxxxxxx2913", amount: 5080, description: "Upadina Mom ne aapya" },
-        { id: "bob_63", date: "2025-07-10", narration: "ATM/CASH/746/xxxxxxxxxxxx2913", amount: 10080, description: "Upadina Mom ne aapya" },
-        { id: "bob_64", date: "2025-01-11", narration: "ATM/CASH/501116087202/xxxxxxxxxxxx2913", amount: 10080, description: "Upadina Mom ne aapya" },
-        { id: "bob_65", date: "2025-02-11", narration: "MBK/504212551525/12:50:51/", amount: 1225, description: "Gas Bill" },
-        
-        // 2024
-        { id: "bob_66", date: "2024-12-22", narration: "ATM/CASH/8848/xxxxxxxxxxxx2913", amount: 15080, description: "Upadina Mom ne aapya" },
-        { id: "bob_67", date: "2024-12-10", narration: "ATM/CASH/8816/xxxxxxxxxxxx2913", amount: 15080, description: "Upadina Mom ne aapya" },
-        { id: "bob_68", date: "2024-12-29", narration: "ATM/CASH/436320021665/xxxxxxxxxxxx2913", amount: 10080, description: "Upadina Mom ne aapya" },
-        { id: "bob_69", date: "2024-12-26", narration: "ATM/CASH/436021021485/xxxxxxxxxxxx2913", amount: 10080, description: "Upadina Mom ne aapya" },
-        { id: "bob_70", date: "2024-12-26", narration: "ATM/CASH/435911010210/xxxxxxxxxxxx2913", amount: 10080, description: "Upadina Mom ne aapya" },
-        { id: "bob_71", date: "2024-12-26", narration: "ATM/CASH/435911009892/xxxxxxxxxxxx2913", amount: 10080, description: "Upadina Mom ne aapya" },
-        { id: "bob_72", date: "2024-11-11", narration: "MBK/434612315563/12:18:15/", amount: 3190, description: "Torrent Power Bill" },
-        { id: "bob_73", date: "2024-11-29", narration: "ATM/CASH/8268/xxxxxxxxxxxx2913", amount: 7080, description: "Upadina Mom ne aapya" },
-        { id: "bob_74", date: "2024-11-26", narration: "ATM/CASH/433118007625/xxxxxxxxxxxx2913", amount: 10080, description: "Upadina Mom ne aapya" },
-        { id: "bob_75", date: "2024-11-08", narration: "MBK/431310257476/18:23:45/", amount: 1225, description: "Gas Bill" },
-        { id: "bob_76", date: "2024-10-26", narration: "ATM/CASH/5280/xxxxxxxxxxxx2913", amount: 10080, description: "Upadina Mom ne aapya" },
-        { id: "bob_77", date: "2024-10-28", narration: "ATM/CASH/489/xxxxxxxxxxxx2913", amount: 10000, description: "Upadina Mom ne aapya" },
-        { id: "bob_78", date: "2024-10-15", narration: "MBK/428946454200/21:01:13/", amount: 4390, description: "Torrent Power Bill" },
-        { id: "bob_79", date: "2024-10-02", narration: "Dr. Tran for funding A/c 24640300008078", amount: 900000, description: "FD (Fixed Deposit)" },
-        { id: "bob_80", date: "2024-09-21", narration: "SOLANKI JAYESHKUMAR KARSH", amount: 500000, description: "Solanki Jayeshkumar Karsh" },
-        { id: "bob_81", date: "2024-09-20", narration: "MICR INWD CLG (CTS)", amount: 500000, description: "MICR INWD CLG (CTS)" },
-        { id: "bob_82", date: "2024-09-18", narration: "MICR INWD CLG (CTS)", amount: 500000, description: "MICR INWD CLG (CTS)" },
-        { id: "bob_83", date: "2024-09-03", narration: "MBK/424723632411/18:24:44/", amount: 1481, description: "Gas Bill" },
-        { id: "bob_84", date: "2024-08-27", narration: "ATM/CASH/4786/xxxxxxxxxxxx2913", amount: 5080, description: "Upadina Mom ne aapya" },
-        { id: "bob_85", date: "2024-08-11", narration: "ATM/CASH/42241300343/xxxxxxxxxxxx2913", amount: 10080, description: "Upadina Mom ne aapya" },
-        { id: "bob_86", date: "2024-08-08", narration: "MBK/422114047416/14:34:32/", amount: 5250, description: "Torrent Power Bill" },
-        { id: "bob_87", date: "2024-07-28", narration: "ATM/CASH/421014031885/xxxxxxxxxxxx2913", amount: 10080, description: "Upadina Mom ne aapya" },
-        { id: "bob_88", date: "2024-07-13", narration: "IMPS/P2A/419516775819/xxxxxxxxxx1807/UdhayTreatmen", amount: 5080, description: "Udhay Treatment" },
-        { id: "bob_89", date: "2024-07-03", narration: "MBK/418578208881/18:56:11/", amount: 784, description: "Gas Bill" },
-        { id: "bob_90", date: "2024-07-03", narration: "IMPS/P2A/418514908140/xxxxxxxxxx1807/Bikerepering", amount: 15080, description: "Bike repair" },
-        { id: "bob_91", date: "2024-06-20", narration: "ATM/CASH/417220027010/xxxxxxxxxxxx2913", amount: 10080, description: "Upadina Mom ne aapya" },
-        { id: "bob_92", date: "2024-06-17", narration: "IMPS/P2A/416915768814/xxxxxxxxxx8497/SchoolFees", amount: 24080, description: "School Fees" },
-        { id: "bob_93", date: "2024-06-10", narration: "NEFT-BARBV24162099082-HITESH PARMAR-STATE BANK OF", amount: 42080, description: "AC Purchase" },
-        { id: "bob_94", date: "2024-06-09", narration: "MBK/416197301222/14:40:06/", amount: 3580, description: "Torrent Power Bill" },
-        { id: "bob_95", date: "2024-05-10", narration: "ATM/CASH/8048/xxxxxxxxxxxx2913", amount: 10080, description: "Upadina Mom ne aapya" },
-        { id: "bob_96", date: "2024-05-10", narration: "ATM/CASH/8047/xxxxxxxxxxxx2913", amount: 15080, description: "Upadina Mom ne aapya" },
-        { id: "bob_97", date: "2024-05-08", narration: "MBK/412913232359/18:23:22/", amount: 1177, description: "Gas Bill" },
-        { id: "bob_98", date: "2024-05-04", narration: "SMS Charges for FEB 24", amount: 0.24, description: "SMS Charges" },
-        { id: "bob_99", date: "2024-05-02", narration: "PRCR/gandhinagar5BilePay/GANDHI NA", amount: 515, description: "GMC Property Tax Hudco" },
-        { id: "bob_100", date: "2024-05-02", narration: "PRCR/gandhinagar5BilePay/GANDHI NA", amount: 860, description: "GMC Property Tax Dholanagar" },
-        { id: "bob_101", date: "2024-05-01", narration: "PRCR/gandhinagar5BilePay/GANDHI NA", amount: 2730, description: "GMC Property Tax 533/1" },
-        { id: "bob_102", date: "2024-05-01", narration: "PRCR/gandhinagar5BilePay/GANDHI NA", amount: 653, description: "GMC Property Tax Vah" },
-        { id: "bob_103", date: "2024-04-28", narration: "ATM/CASH/411911020091/xxxxxxxxxxxx2913", amount: 2080, description: "Upadina Mom ne aapya" },
-        { id: "bob_104", date: "2024-04-12", narration: "ATM/CASH/4882/xxxxxxxxxxxx2913", amount: 2080, description: "Upadina Mom ne aapya" },
-        { id: "bob_105", date: "2024-04-08", narration: "MBK/4100161307372/13:19:39/", amount: 2380, description: "Torrent Power Bill" },
-        { id: "bob_106", date: "2024-04-02", narration: "Dr. Tran for funding A/c 24640300078364", amount: 1000000, description: "FD (Fixed Deposit)" },
-        { id: "bob_107", date: "2024-03-01", narration: "MBK/406161307372/13:19:39/", amount: 1422, description: "Gas Bill" }
+        // Samples removed
     ]
 };
 
@@ -504,25 +379,14 @@ function initApp() {
     const stored = localStorage.getItem("hitesh_home_finance_state");
     if (stored) {
         try {
-            const loadedState = JSON.parse(stored);
-            appState = loadedState; // Start with the loaded state
+            appState = JSON.parse(stored);
             
-            // Overhaul houses structure to Phase 2 details to make sure mapping works
-            // This ensures new default properties are added, but user-modified data is preserved.
-            const newHouses = JSON.parse(JSON.stringify(DEFAULT_STATE.houses));
-            appState.houses.forEach(loadedHouse => {
-                const defaultHouse = newHouses.find(h => h.id === loadedHouse.id);
-                if (defaultHouse) {
-                    // Preserve user-modifiable fields from loadedState
-                    defaultHouse.tenantName = loadedHouse.tenantName;
-                    defaultHouse.tenantPhone = loadedHouse.tenantPhone;
-                    defaultHouse.rentAmount = loadedHouse.rentAmount;
-                    defaultHouse.depositAmount = loadedHouse.depositAmount;
-                    defaultHouse.depositStatus = loadedHouse.depositStatus;
-                    defaultHouse.status = loadedHouse.status;
+            // missing keys ઉમેરવી (પણ existing ડેટા ભૂંસવો નહીં)
+            Object.keys(DEFAULT_STATE).forEach(key => {
+                if (appState[key] === undefined) {
+                    appState[key] = JSON.parse(JSON.stringify(DEFAULT_STATE[key]));
                 }
             });
-            appState.houses = newHouses;
             
             // Sync structure changes
             if (!appState.propertyTaxes) appState.propertyTaxes = [];
