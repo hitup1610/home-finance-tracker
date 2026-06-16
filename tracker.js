@@ -1586,11 +1586,16 @@ async function importFromGoogleSheets() {
                                 cloudData[key].forEach(h => { if (!h.date) h.date = new Date().toISOString().split('T')[0]; });
                             }
                             
-                            // ખાતરી કરો કે રકમ વાળા ખાના નંબર તરીકે જ રહે
+                            // ખાતરી કરો કે રકમ અને ID વાળા ખાના નંબર તરીકે જ રહે
                             cloudData[key].forEach(item => {
                                 if (item.amount !== undefined) item.amount = Number(item.amount);
                                 if (item.rentAmount !== undefined) item.rentAmount = Number(item.rentAmount);
                                 if (item.depositAmount !== undefined) item.depositAmount = Number(item.depositAmount);
+                                
+                                // ID અને HouseId ને નંબરમાં ફેરવો જેથી Comparison માં ભૂલ ના આવે
+                                if (item.id !== undefined && key === 'houses') item.id = Number(item.id);
+                                if (item.houseId !== undefined) item.houseId = Number(item.houseId);
+                                
                                 if (item.rate !== undefined) item.rate = Number(item.rate);
                                 if (item.liters !== undefined) item.liters = Number(item.liters);
                             });
