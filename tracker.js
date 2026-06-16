@@ -321,10 +321,10 @@ const TRANSLATIONS = {
 const DEFAULT_STATE = {
     lang: "gu", // default language is Gujarati
     houses: [
-        { id: 1, name: "533/1, 5B, Gandhinagar", tenamentNo: "1007A09729", waterCustomerNo: "051822", torrentCustomerId: "1007968", gasCustomerNo: "500000270187", tenantName: "રાકેશભાઈ પ્રજાપતિ", tenantPhone: "9876543210", rentAmount: 7000, depositAmount: 15000, depositStatus: "paid", status: "occupied" },
-        { id: 2, name: "2658, Dholanagar, Kolavada", tenamentNo: "1007C102107", ugvclConsumerNo: "26919022419", tenantName: "હરેશભાઈ વાઘેલા", tenantPhone: "9624589320", rentAmount: 6000, depositAmount: 16000, depositStatus: "paid", status: "occupied" },
-        { id: 3, name: "733, Vah, Kolavada", tenamentNo: "1007C101208", ugvclConsumerNo: "26919004879", tenantName: "મનોજસિંહ પરમાર", tenantPhone: "9099887766", rentAmount: 4000, depositAmount: 13000, depositStatus: "paid", status: "occupied" },
-        { id: 4, name: "81, Hudco, Kolavada", tenamentNo: "1007C100824", ugvclConsumerNo: "26919105284", tenantName: "ભાવનાબેન શાહ", tenantPhone: "9426058472", rentAmount: 500, depositAmount: 0, depositStatus: "unpaid", status: "occupied" }
+        { id: 1, date: "2024-01-01", name: "533/1, 5B, Gandhinagar", tenamentNo: "1007A09729", waterCustomerNo: "051822", torrentCustomerId: "1007968", gasCustomerNo: "500000270187", tenantName: "રાકેશભાઈ પ્રજાપતિ", tenantPhone: "9876543210", rentAmount: 7000, depositAmount: 15000, depositStatus: "paid", status: "occupied" },
+        { id: 2, date: "2024-01-01", name: "2658, Dholanagar, Kolavada", tenamentNo: "1007C102107", ugvclConsumerNo: "26919022419", tenantName: "હરેશભાઈ વાઘેલા", tenantPhone: "9624589320", rentAmount: 6000, depositAmount: 16000, depositStatus: "paid", status: "occupied" },
+        { id: 3, date: "2024-01-01", name: "733, Vah, Kolavada", tenamentNo: "1007C101208", ugvclConsumerNo: "26919004879", tenantName: "મનોજસિંહ પરમાર", tenantPhone: "9099887766", rentAmount: 4000, depositAmount: 13000, depositStatus: "paid", status: "occupied" },
+        { id: 4, date: "2024-01-01", name: "81, Hudco, Kolavada", tenamentNo: "1007C100824", ugvclConsumerNo: "26919105284", tenantName: "ભાવનાબેન શાહ", tenantPhone: "9426058472", rentAmount: 500, depositAmount: 0, depositStatus: "unpaid", status: "occupied" }
     ],
     googleSheetUrl: "https://script.google.com/macros/s/AKfycbzi36UWtO2dMO9ynaZgONYzA_Dukfc4RDm_xBJiD9Frkl9sanC5O5tV3OUuqRcYD3Pl9Q/exec",
     rentPayments: [
@@ -1678,14 +1678,32 @@ async function importFromGoogleSheets() {
     if (!confirm(appState.lang === "gu" ? "શું તમે Google Sheet માંથી ડેટા લોડ કરવા માંગો છો? આનાથી અત્યારનો લોકલ ડેટા બદલાઈ જશે." : "Load data from Google Sheet? This will overwrite local data.")) return;
 
     try {
-        const response = await fetch(url, { method: 'GET' });
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        // જો યુઝરે ભૂલથી શીટનું URL નાખ્યું હોય તો ચેક કરો
+        if (url.includes("docs.google.com/spreadsheets")) {
+            throw new Error(appState.lang === "gu" ? "તમે શીટનું URL નાખ્યું છે. કૃપા કરીને Apps Script નું Web App URL નાખો." : "You entered Spreadsheet URL. Please use Web App URL.");
+        }
+
+        // Explicit GET request with redirect following
+        const response = await fetch(url, { method: 'GET', redirect: 'follow' });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP status ${response.status}`);
+        }
+
         const cloudData = await response.json();
 
         if (cloudData && typeof cloudData === 'object') {
-            // Merge cloud data into appState
+            // Cloud data માં જો એરર હોય તો
+            if (cloudData.success === false) {
+                throw new Error(cloudData.error || "Unknown server error");
+            }
+
             Object.keys(cloudData).forEach(key => {
                 if (Array.isArray(cloudData[key])) {
+                    // જો Houses લોડ કરતા હોઈએ અને તારીખ ના હોય તો આજની તારીખ સેટ કરવી
+                    if (key === 'houses') {
+                        cloudData[key].forEach(h => { if (!h.date) h.date = new Date().toISOString().split('T')[0]; });
+                    }
                     appState[key] = cloudData[key];
                 }
             });
@@ -1697,7 +1715,16 @@ async function importFromGoogleSheets() {
         }
     } catch (error) {
         console.error("Load error:", error);
-        alert((appState.lang === "gu" ? "ડેટા લોડ કરવામાં ભૂલ થઈ: " : "Error loading data: ") + error.message);
+        let msg = appState.lang === "gu" ? "ડેટા લોડ કરવામાં ભૂલ થઈ: " : "Error loading data: ";
+        
+        if (error.message === "Failed to fetch") {
+            msg += (appState.lang === "gu" 
+                ? "Failed to fetch (CORS એરર). આ એરર ત્યારે જ આવે છે જ્યારે Apps Script માં 'Who has access' માં 'Anyone' પસંદ કરેલ ના હોય. પર્સનલ Gmail આઈડી વાપરો." 
+                : "Failed to fetch (CORS). This happens if 'Who has access' is not set to 'Anyone'. Please use a personal Gmail account.");
+        } else {
+            msg += error.message;
+        }
+        alert(msg);
     }
 }
 
