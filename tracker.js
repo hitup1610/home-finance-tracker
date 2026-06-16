@@ -1649,15 +1649,28 @@ async function syncToGoogleSheets() {
     try {
         await fetch(currentUrl, {
             method: 'POST',
-            mode: 'no-cors', // standard for simple Apps Script triggers
+            mode: 'cors', // Changed from 'no-cors' to 'cors' to read response
             cache: 'no-cache',
-            headers: { 'Content-Type': 'text/plain' },
+            headers: { 'Content-Type': 'application/json' }, // Changed Content-Type
             body: JSON.stringify(appState)
         });
-        alert(TRANSLATIONS[appState.lang].syncSuccess);
+
+        // Check if the response is OK (HTTP status 200-299)
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json(); // Parse the JSON response from Apps Script
+
+        if (result.success) {
+            alert(TRANSLATIONS[appState.lang].syncSuccess);
+        } else {
+            alert(`${TRANSLATIONS[appState.lang].syncError} ${result.error || ''}`);
+            console.error("Apps Script reported an error:", result.error);
+        }
     } catch (error) {
         console.error("Sync error:", error);
-        alert(TRANSLATIONS[appState.lang].syncError);
+        alert(`${TRANSLATIONS[appState.lang].syncError} ${error.message || ''}`);
     } finally {
         btn.innerHTML = originalText;
         btn.disabled = false;
