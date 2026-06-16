@@ -326,7 +326,7 @@ const DEFAULT_STATE = {
         { id: 3, date: "2024-01-01", name: "733, Vah, Kolavada", tenamentNo: "1007C101208", ugvclConsumerNo: "26919004879", tenantName: "મનોજસિંહ પરમાર", tenantPhone: "9099887766", rentAmount: 4000, depositAmount: 13000, depositStatus: "paid", status: "occupied" },
         { id: 4, date: "2024-01-01", name: "81, Hudco, Kolavada", tenamentNo: "1007C100824", ugvclConsumerNo: "26919105284", tenantName: "ભાવનાબેન શાહ", tenantPhone: "9426058472", rentAmount: 500, depositAmount: 0, depositStatus: "unpaid", status: "occupied" }
     ],
-    googleSheetUrl: "https://script.google.com/macros/s/AKfycbzi36UWtO2dMO9ynaZgONYzA_Dukfc4RDm_xBJiD9Frkl9sanC5O5tV3OUuqRcYD3Pl9Q/exec",
+    googleSheetUrl: "https://script.google.com/macros/s/AKfycbxSAcpxELvBFiepXyEgznqdRGrDFGJpnDiU2gamXYetDGU5XAc_Ckn5uaOWBw8U2te7/exec",
     rentPayments: [
         { id: "rp1", houseId: 1, monthYear: "2026-05", amount: 7500, datePaid: "2026-05-05", paymentMode: "GPay", status: "paid", note: "ચોકસાઈથી જમા" },
         { id: "rp2", houseId: 2, monthYear: "2026-05", amount: 8000, datePaid: "2026-05-06", paymentMode: "Bank", status: "paid", note: "બેંક ટ્રાન્સફર" },
@@ -1700,10 +1700,17 @@ async function importFromGoogleSheets() {
 
             try {
                 const cloudData = await response.json();
-                if (cloudData && typeof cloudData === 'object') {
+                
+                // ચેક કરો કે ડેટા ખરેખર મળ્યો છે અને તે ખાલી નથી
+                if (cloudData && typeof cloudData === 'object' && Object.keys(cloudData).length > 0) {
                     // Cloud data માં જો એરર હોય તો
                     if (cloudData.success === false) {
                         throw new Error(cloudData.error || "Unknown server error");
+                    }
+
+                    // ખાતરી કરો કે 'houses' કે 'rentPayments' જેવી મુખ્ય વિગતો ડેટામાં છે
+                    if (!cloudData.houses && !cloudData.rentPayments) {
+                        throw new Error(appState.lang === "gu" ? "શીટમાં ડેટા મળ્યો નથી." : "No data found in sheet.");
                     }
 
                     Object.keys(cloudData).forEach(key => {
