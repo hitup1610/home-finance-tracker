@@ -1476,14 +1476,15 @@ function downloadCSV(csvContent, baseName) {
 function exportRentToExcel() {
     const lang = appState.lang;
     const headers = lang === "gu" 
-        ? ["મકાન", "મહિનો", "રકમ (રૂ.)", "તારીખ", "પદ્ધતિ", "સ્ટેટસ", "નોંધ"]
-        : ["House", "Month", "Amount (₹)", "Date Paid", "Mode", "Status", "Notes"];
+        ? ["મકાન (House)", "મહિનો", "રકમ (રૂ.)", "તારીખ", "પદ્ધતિ", "સ્ટેટસ", "નોંધ"]
+        : ["House Name", "Month", "Amount (₹)", "Date Paid", "Mode", "Status", "Notes"];
     let csvContent = "\uFEFF";
     csvContent += headers.map(h => `"${h.replace(/"/g, '""')}"`).join(",") + "\n";
     const sorted = [...appState.rentPayments].sort((a, b) => new Date(b.datePaid) - new Date(a.datePaid));
     sorted.forEach(p => {
         const house = appState.houses.find(h => h.id === p.houseId);
-        const houseName = house ? house.name.split(',')[0] : `House ${p.houseId}`;
+        // Full house name for clarity in spreadsheet
+        const houseName = house ? house.name : `House ${p.houseId}`;
         const row = [houseName, formatDisplayDate(p.monthYear), p.amount, formatDisplayDate(p.datePaid), p.paymentMode, p.status, p.note || ""];
         csvContent += row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",") + "\n";
     });
@@ -1494,17 +1495,20 @@ function exportRentToExcel() {
 function exportTaxesToExcel() {
     const lang = appState.lang;
     const headers = lang === "gu" 
-        ? ["પ્રકાર", "મકાન / ગ્રાહક નં", "વર્ષ", "રકમ (રૂ.)", "તારીખ", "નોંધ"]
-        : ["Type", "House / Consumer No", "Year", "Amount (₹)", "Date", "Notes"];
+        ? ["પ્રકાર", "મકાન (House)", "વર્ષ", "રકમ (રૂ.)", "તારીખ", "નોંધ"]
+        : ["Tax Type", "House Name", "Year", "Amount (₹)", "Date", "Notes"];
     let csvContent = "\uFEFF";
     csvContent += headers.map(h => `"${h.replace(/"/g, '""')}"`).join(",") + "\n";
     appState.propertyTaxes.forEach(t => {
         const house = appState.houses.find(h => h.id === t.houseId);
-        const row = [lang === "gu" ? "ઘર વેરો" : "Property Tax", house ? house.name.split(',')[0] : t.tenamentNo, t.year, t.amount, formatDisplayDate(t.datePaid), t.note || ""];
+        const houseName = house ? house.name : t.tenamentNo;
+        const row = [lang === "gu" ? "ઘર વેરો" : "Property Tax", houseName, t.year, t.amount, formatDisplayDate(t.datePaid), t.note || ""];
         csvContent += row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",") + "\n";
     });
+    const mainHouse = appState.houses.find(h => h.id === 1);
+    const mainHouseName = mainHouse ? mainHouse.name : "533/1, 5B, Gandhinagar";
     appState.waterTaxes.forEach(w => {
-        const row = [lang === "gu" ? "પાણી વેરો" : "Water Tax", w.customerNo, w.year, w.amount, formatDisplayDate(w.datePaid), w.note || ""];
+        const row = [lang === "gu" ? "પાણી વેરો" : "Water Tax", mainHouseName, w.year, w.amount, formatDisplayDate(w.datePaid), w.note || ""];
         csvContent += row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",") + "\n";
     });
     downloadCSV(csvContent, lang === "gu" ? "વેરા_ચુકવણી_હિસ્ટ્રી" : "Tax_Payment_History");
@@ -1514,21 +1518,24 @@ function exportTaxesToExcel() {
 function exportUtilitiesToExcel() {
     const lang = appState.lang;
     const headers = lang === "gu" 
-        ? ["પ્રકાર", "ગ્રાહક / મકાન", "સમયગાળો", "રકમ (રૂ.)", "તારીખ", "ભરનાર", "નોંધ"]
-        : ["Type", "Customer / House", "Period", "Amount (₹)", "Date", "Paid By", "Notes"];
+        ? ["પ્રકાર", "મકાન (House)", "સમયગાળો", "રકમ (રૂ.)", "તારીખ", "ભરનાર", "નોંધ"]
+        : ["Utility Type", "House Name", "Period", "Amount (₹)", "Date", "Paid By", "Notes"];
     let csvContent = "\uFEFF";
     csvContent += headers.map(h => `"${h.replace(/"/g, '""')}"`).join(",") + "\n";
+    const mainHouse = appState.houses.find(h => h.id === 1);
+    const mainHouseName = mainHouse ? mainHouse.name : "533/1, 5B, Gandhinagar";
     appState.torrentBills.forEach(b => {
-        const row = ["Torrent Power", b.customerId, b.period, b.amount, formatDisplayDate(b.datePaid), lang === "gu" ? "માલિક" : "Owner", b.note || ""];
+        const row = ["Torrent Power", mainHouseName, b.period, b.amount, formatDisplayDate(b.datePaid), lang === "gu" ? "માલિક" : "Owner", b.note || ""];
         csvContent += row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",") + "\n";
     });
     appState.gasBills.forEach(b => {
-        const row = ["Gujarat Gas", b.customerNo, b.period, b.amount, formatDisplayDate(b.datePaid), lang === "gu" ? "માલિક" : "Owner", b.note || ""];
+        const row = ["Gujarat Gas", mainHouseName, b.period, b.amount, formatDisplayDate(b.datePaid), lang === "gu" ? "માલિક" : "Owner", b.note || ""];
         csvContent += row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",") + "\n";
     });
     appState.ugvclBills.forEach(b => {
         const house = appState.houses.find(h => h.id === b.houseId);
-        const row = ["UGVCL", house ? house.name.split(',')[0] : b.consumerNo, b.period, b.amount, formatDisplayDate(b.datePaid), b.paidBy, b.note || ""];
+        const houseName = house ? house.name : b.consumerNo;
+        const row = ["UGVCL", houseName, b.period, b.amount, formatDisplayDate(b.datePaid), b.paidBy, b.note || ""];
         csvContent += row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",") + "\n";
     });
     downloadCSV(csvContent, lang === "gu" ? "બિલ_ચુકવણી_હિસ્ટ્રી" : "Utility_Bills_History");
@@ -1538,13 +1545,15 @@ function exportUtilitiesToExcel() {
 function exportMilkToExcel() {
     const lang = appState.lang;
     const headers = lang === "gu" 
-        ? ["મહિનો", "ડેરી", "લીટર", "ભાવ", "કુલ રકમ", "તારીખ", "નોંધ"]
-        : ["Month", "Vendor", "Liters", "Rate", "Total Amount", "Date Paid", "Notes"];
+        ? ["મકાન (House)", "મહિનો", "ડેરી", "લીટર", "ભાવ", "કુલ રકમ", "તારીખ", "નોંધ"]
+        : ["House Name", "Month", "Vendor", "Liters", "Rate", "Total Amount", "Date Paid", "Notes"];
     let csvContent = "\uFEFF";
     csvContent += headers.map(h => `"${h.replace(/"/g, '""')}"`).join(",") + "\n";
     const sorted = [...appState.milkBills].sort((a, b) => new Date(b.datePaid) - new Date(a.datePaid));
+    const mainHouse = appState.houses.find(h => h.id === 1);
+    const mainHouseName = mainHouse ? mainHouse.name : "533/1, 5B, Gandhinagar";
     sorted.forEach(m => {
-        const row = [formatDisplayDate(m.monthYear), m.vendorName, m.liters, m.rate, m.amount, formatDisplayDate(m.datePaid), m.note || ""];
+        const row = [mainHouseName, formatDisplayDate(m.monthYear), m.vendorName, m.liters, m.rate, m.amount, formatDisplayDate(m.datePaid), m.note || ""];
         csvContent += row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",") + "\n";
     });
     downloadCSV(csvContent, lang === "gu" ? "દૂધ_બિલ_હિસ્ટ્રી" : "Milk_Bills_History");
@@ -1554,15 +1563,17 @@ function exportMilkToExcel() {
 function exportDailyToExcel() {
     const lang = appState.lang;
     const headers = lang === "gu" 
-        ? ["તારીખ", "વિગત", "શ્રેણી", "રકમ (રૂ.)", "પદ્ધતિ", "નોંધ"]
-        : ["Date", "Description", "Category", "Amount (₹)", "Mode", "Notes"];
+        ? ["મકાન (House)", "તારીખ", "વિગત", "શ્રેણી", "રકમ (રૂ.)", "પદ્ધતિ", "નોંધ"]
+        : ["House Name", "Date", "Description", "Category", "Amount (₹)", "Mode", "Notes"];
     let csvContent = "\uFEFF";
     csvContent += headers.map(h => `"${h.replace(/"/g, '""')}"`).join(",") + "\n";
     const sorted = [...appState.dailyExpenses].sort((a, b) => new Date(b.date) - new Date(a.date));
+    const mainHouse = appState.houses.find(h => h.id === 1);
+    const mainHouseName = mainHouse ? mainHouse.name : "533/1, 5B, Gandhinagar";
     sorted.forEach(d => {
         const catKey = "cat" + d.category.charAt(0).toUpperCase() + d.category.slice(1);
         const catLabel = TRANSLATIONS[lang][catKey] || d.category;
-        const row = [formatDisplayDate(d.date), d.description, catLabel, d.amount, d.paymentMode, d.note || ""];
+        const row = [mainHouseName, formatDisplayDate(d.date), d.description, catLabel, d.amount, d.paymentMode, d.note || ""];
         csvContent += row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",") + "\n";
     });
     downloadCSV(csvContent, lang === "gu" ? "રોજિંદા_ખર્ચ_હિસ્ટ્રી" : "Daily_Expenses_History");
