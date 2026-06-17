@@ -812,7 +812,9 @@ function renderDashboard() {
 function formatDisplayDate(dateStr) {
     if (!dateStr) return "";
     try {
-        const parts = dateStr.split("-");
+        // જો તારીખમાં સમય હોય (ISO format), તો ફક્ત તારીખનો ભાગ જ લેવો
+        const cleanDate = dateStr.split("T")[0];
+        const parts = cleanDate.split("-");
         if (parts.length === 2) {
             const monthsEn = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
             const monthsGu = ["જાન્યુઆરી", "ફેબ્રુઆરી", "માર્ચ", "એપ્રિલ", "મે", "જૂન", "જુલાઈ", "ઓગસ્ટ", "સપ્ટેમ્બર", "ઓક્ટોબર", "નવેમ્બર", "ડિસેમ્બર"];
@@ -1552,6 +1554,7 @@ async function importFromGoogleSheets() {
             throw new Error(appState.lang === "gu" ? "તમે શીટનું URL નાખ્યું છે. કૃપા કરીને Apps Script નું Web App URL નાખો." : "You entered Spreadsheet URL. Please use Web App URL.");
         }
 
+        console.log("Starting load from:", url);
         // બ્રાઉઝર કેશ બાયપાસ કરવા માટે ટાઈમસ્ટેમ્પ ઉમેર્યો
         const fetchUrl = url + (url.includes('?') ? '&' : '?') + 't=' + Date.now();
 
@@ -1567,6 +1570,7 @@ async function importFromGoogleSheets() {
                 const cloudData = await response.json();
                 
                 // ચેક કરો કે ડેટા ખરેખર મળ્યો છે અને તે ખાલી નથી
+                console.log("Cloud data check:", cloudData);
                 if (cloudData && typeof cloudData === 'object' && Object.keys(cloudData).length > 0) {
                     // Cloud data માં જો એરર હોય તો
                     if (cloudData.success === false) {
