@@ -1599,6 +1599,60 @@ async function importFromGoogleSheets() {
                     if (cloudData.success === false) {
                         throw new Error(cloudData.error || "Unknown server error");
                     }
+                    
+                    // Clean date strings from ISO format to YYYY-MM-DD for all relevant arrays
+                    if (cloudData.houses) {
+                        cloudData.houses.forEach(h => {
+                            h.date = cleanDateString(h.date);
+                        });
+                    }
+                    if (cloudData.rentPayments) {
+                        cloudData.rentPayments.forEach(rp => {
+                            rp.monthYear = cleanDateString(rp.monthYear); // Will become YYYY-MM-DD, then formatDisplayMonth extracts YYYY-MM
+                            rp.datePaid = cleanDateString(rp.datePaid);
+                        });
+                    }
+                    if (cloudData.propertyTaxes) {
+                        cloudData.propertyTaxes.forEach(pt => {
+                            pt.datePaid = cleanDateString(pt.datePaid);
+                        });
+                    }
+                    if (cloudData.waterTaxes) {
+                        cloudData.waterTaxes.forEach(wt => {
+                            wt.datePaid = cleanDateString(wt.datePaid);
+                        });
+                    }
+                    if (cloudData.torrentBills) {
+                        cloudData.torrentBills.forEach(tb => {
+                            tb.datePaid = cleanDateString(tb.datePaid);
+                        });
+                    }
+                    if (cloudData.gasBills) {
+                        cloudData.gasBills.forEach(gb => {
+                            gb.datePaid = cleanDateString(gb.datePaid);
+                        });
+                    }
+                    if (cloudData.ugvclBills) {
+                        cloudData.ugvclBills.forEach(ub => {
+                            ub.datePaid = cleanDateString(ub.datePaid);
+                        });
+                    }
+                    if (cloudData.milkBills) {
+                        cloudData.milkBills.forEach(mb => {
+                            mb.monthYear = cleanDateString(mb.monthYear); // Will become YYYY-MM-DD, then formatDisplayMonth extracts YYYY-MM
+                            mb.datePaid = cleanDateString(mb.datePaid);
+                        });
+                    }
+                    if (cloudData.dailyExpenses) {
+                        cloudData.dailyExpenses.forEach(de => {
+                            de.date = cleanDateString(de.date);
+                        });
+                    }
+                    if (cloudData.bobTransactions) {
+                        cloudData.bobTransactions.forEach(bt => {
+                            bt.date = cleanDateString(bt.date);
+                        });
+                    }
 
                     // ખાતરી કરો કે 'houses' કે 'rentPayments' જેવી મુખ્ય વિગતો ડેટામાં છે
                     console.log("importFromGoogleSheets: cloudData received:", cloudData); // Add this for debugging
@@ -2415,6 +2469,14 @@ function openAddTransModal() {
 
 function closeModal(modalId) {
     document.getElementById(modalId).classList.remove("active");
+}
+
+// Helper function to clean date strings from ISO format to YYYY-MM-DD
+function cleanDateString(dateStr) {
+    if (typeof dateStr === 'string' && dateStr.includes('T')) {
+        return dateStr.split('T')[0];
+    }
+    return dateStr;
 }
 
 // Event Listeners Setup
