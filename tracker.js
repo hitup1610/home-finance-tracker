@@ -751,7 +751,7 @@ function renderDashboard() {
     appState.milkBills.forEach(m => {
         activities.push({
             type: "milk",
-            desc: appState.lang === "gu" ? `દૂધ ચૂકવણી (${m.monthYear})` : `Milk bill paid (${m.monthYear})`,
+            desc: appState.lang === "gu" ? `દૂધ ચૂકવણી (${formatDisplayMonth(m.monthYear)})` : `Milk bill paid (${formatDisplayMonth(m.monthYear)})`,
             date: m.datePaid,
             amount: m.amount,
             isIncome: false
@@ -827,6 +827,24 @@ function formatDisplayDate(dateStr) {
             return appState.lang === "gu" ? `${monthsGu[mIdx]} ${parts[0]}` : `${monthsEn[mIdx]} ${parts[0]}`;
         } else if (parts.length === 3) {
             return `${parts[2]}/${parts[1]}/${parts[0]}`;
+        }
+    } catch(e) {
+        return dateStr;
+    }
+    return dateStr;
+}
+
+// ફક્ત મહિનો અને વર્ષ બતાવવા માટેનું હેલ્પર ફંક્શન
+function formatDisplayMonth(dateStr) {
+    if (!dateStr) return "";
+    try {
+        const cleanDate = dateStr.split("T")[0];
+        const parts = cleanDate.split("-");
+        if (parts.length >= 2) {
+            const monthsEn = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const monthsGu = ["જાન્યુઆરી", "ફેબ્રુઆરી", "માર્ચ", "એપ્રિલ", "મે", "જૂન", "જુલાઈ", "ઓગસ્ટ", "સપ્ટેમ્બર", "ઓક્ટોબર", "નવેમ્બર", "ડિસેમ્બર"];
+            const mIdx = parseInt(parts[1], 10) - 1;
+            return appState.lang === "gu" ? `${monthsGu[mIdx]} ${parts[0]}` : `${monthsEn[mIdx]} ${parts[0]}`;
         }
     } catch(e) {
         return dateStr;
@@ -928,7 +946,7 @@ function renderRentHistoryTable() {
         }
 
         row.innerHTML = `
-            <td>${formatDisplayDate(p.monthYear)}</td>
+            <td>${formatDisplayMonth(p.monthYear)}</td>
             <td>₹${p.amount}</td>
             <td>${formatDisplayDate(p.datePaid)}</td>
             <td>${p.paymentMode || ""}</td>
@@ -1161,7 +1179,7 @@ function renderMilk() {
     sorted.forEach(m => {
         const row = document.createElement("tr");
         row.innerHTML = `
-            <td>${formatDisplayDate(m.monthYear)}</td>
+            <td>${formatDisplayMonth(m.monthYear)}</td>
             <td>${m.vendorName}</td>
             <td>${m.liters} L</td>
             <td>₹${m.rate}</td>
