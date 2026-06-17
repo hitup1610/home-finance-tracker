@@ -326,7 +326,7 @@ const DEFAULT_STATE = {
         { id: 3, date: "2024-01-01", name: "733, Vah, Kolavada", tenamentNo: "1007C101208", ugvclConsumerNo: "26919004879", tenantName: "", tenantPhone: "", rentAmount: 0, depositAmount: 0, depositStatus: "unpaid", status: "vacant" },
         { id: 4, date: "2024-01-01", name: "81, Hudco, Kolavada", tenamentNo: "1007C100824", ugvclConsumerNo: "26919105284", tenantName: "", tenantPhone: "", rentAmount: 0, depositAmount: 0, depositStatus: "unpaid", status: "vacant" }
     ],
-    googleSheetUrl: "https://script.google.com/macros/s/AKfycbxSAcpxELvBFiepXyEgznqdRGrDFGJpnDiU2gamXYetDGU5XAc_Ckn5uaOWBw8U2te7/exec",
+    googleSheetUrl: "https://script.google.com/macros/s/AKfycbz7g0-_NDY-lUbqi_uw2nwr_TDLDVa9LkxZC9oz2ZGV6lr-AEggjr5mp2az1Isu7VWe/exec",
     rentPayments: [
         // Samples removed to prevent old history from reappearing
     ],
@@ -396,7 +396,7 @@ function initApp() {
             if (!appState.ugvclBills) appState.ugvclBills = [];
             if (!appState.dailyExpenses) appState.dailyExpenses = [];
             if (!appState.transactions) appState.transactions = [];
-            if (!appState.googleSheetUrl) appState.googleSheetUrl = "https://script.google.com/macros/s/AKfycbzi36UWtO2dMO9ynaZgONYzA_Dukfc4RDm_xBJiD9Frkl9sanC5O5tV3OUuqRcYD3Pl9Q/exec";
+            if (!appState.googleSheetUrl) appState.googleSheetUrl = "https://script.google.com/macros/s/AKfycbz7g0-_NDY-lUbqi_uw2nwr_TDLDVa9LkxZC9oz2ZGV6lr-AEggjr5mp2az1Isu7VWe/exec";
             
             // Sync BOB Transactions list
             if (!appState.bobTransactions) {
