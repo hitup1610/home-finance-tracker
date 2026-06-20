@@ -410,6 +410,31 @@ function initApp() {
             if (!appState.bobTransactions) {
                 appState.bobTransactions = JSON.parse(JSON.stringify(DEFAULT_STATE.bobTransactions));
             }
+            
+            // *** DATA MIGRATION: monthYear ને "YYYY-MM-DD" અથવા "YYYY-MM-DDThh:mm:ssZ" માંથી "YYYY-MM" ફોર્મેટ માં convert કરો ***
+            // Google Sheets માંથી import કરેલ ડેટા ક્યારેક full date format માં આવે છે
+            if (appState.rentPayments) {
+                appState.rentPayments.forEach(rp => {
+                    if (rp.monthYear && typeof rp.monthYear === 'string') {
+                        // ISO timestamp clean
+                        const clean = rp.monthYear.split('T')[0];
+                        // If YYYY-MM-DD, take first 7 chars → YYYY-MM
+                        if (/^\d{4}-\d{2}-\d{2}$/.test(clean)) {
+                            rp.monthYear = clean.substring(0, 7);
+                        }
+                    }
+                });
+            }
+            if (appState.milkBills) {
+                appState.milkBills.forEach(mb => {
+                    if (mb.monthYear && typeof mb.monthYear === 'string') {
+                        const clean = mb.monthYear.split('T')[0];
+                        if (/^\d{4}-\d{2}-\d{2}$/.test(clean)) {
+                            mb.monthYear = clean.substring(0, 7);
+                        }
+                    }
+                });
+            }
         } catch (e) {
             console.error("Error loading local storage state", e);
             appState = JSON.parse(JSON.stringify(DEFAULT_STATE));
@@ -457,8 +482,75 @@ function handleLogin() {
 }
 
 // Save State to LocalStorage
+// Auto-sync debounce timer
+let _autoSyncTimer = null;
+
 function saveState() {
     localStorage.setItem("hitesh_home_finance_state", JSON.stringify(appState));
+    // Debounced silent background sync to Google Sheets (5 second delay)
+    scheduleAutoSync();
+}
+
+// Schedule a background silent sync to Google Sheets
+function scheduleAutoSync() {
+    if (!appState.googleSheetUrl) return;
+    if (_autoSyncTimer) clearTimeout(_autoSyncTimer);
+    // Show syncing indicator
+    showSyncStatus('pending');
+    _autoSyncTimer = setTimeout(() => {
+        silentSyncToGoogleSheets();
+    }, 5000);
+}
+
+// Show sync status indicator
+function showSyncStatus(status) {
+    let indicator = document.getElementById('auto-sync-indicator');
+    if (!indicator) return;
+    if (status === 'pending') {
+        indicator.title = appState.lang === 'gu' ? 'Google Sheet માં સેવ કરવામાં આવી રહ્યું છે...' : 'Saving to Google Sheet...';
+        indicator.style.background = '#f59e0b'; // amber = pending
+        indicator.style.display = 'block';
+    } else if (status === 'success') {
+        indicator.title = appState.lang === 'gu' ? 'Google Sheet માં સેવ થઈ ગયું ✓' : 'Synced to Google Sheet ✓';
+        indicator.style.background = '#22c55e'; // green = success
+        indicator.style.display = 'block';
+        setTimeout(() => { if (indicator) indicator.style.display = 'none'; }, 3000);
+    } else if (status === 'error') {
+        indicator.title = appState.lang === 'gu' ? 'Google Sheet sync ભૂલ' : 'Google Sheet sync error';
+        indicator.style.background = '#ef4444'; // red = error
+        indicator.style.display = 'block';
+    }
+}
+
+// Silent background sync (no alerts, no button state changes)
+async function silentSyncToGoogleSheets() {
+    const currentUrl = appState.googleSheetUrl;
+    if (!currentUrl) return;
+    try {
+        const syncState = JSON.parse(JSON.stringify(appState));
+        // Format monthYear to readable strings for Google Sheets
+        if (syncState.rentPayments) {
+            syncState.rentPayments.forEach(rp => {
+                rp.monthYear = formatDisplayMonth(rp.monthYear);
+            });
+        }
+        if (syncState.milkBills) {
+            syncState.milkBills.forEach(mb => {
+                mb.monthYear = formatDisplayMonth(mb.monthYear);
+            });
+        }
+        await fetch(currentUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            cache: 'no-cache',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify(syncState)
+        });
+        showSyncStatus('success');
+    } catch (err) {
+        console.warn('Auto-sync failed:', err);
+        showSyncStatus('error');
+    }
 }
 
 // Set Active Language
