@@ -1540,12 +1540,25 @@ async function syncToGoogleSheets() {
     btn.disabled = true;
 
     try {
+        // Send a copy with formatted monthYear for Google Sheets display
+        const syncState = JSON.parse(JSON.stringify(appState));
+        if (syncState.rentPayments) {
+            syncState.rentPayments.forEach(rp => {
+                rp.monthYear = formatDisplayMonth(rp.monthYear);
+            });
+        }
+        if (syncState.milkBills) {
+            syncState.milkBills.forEach(mb => {
+                mb.monthYear = formatDisplayMonth(mb.monthYear);
+            });
+        }
+        
         await fetch(currentUrl, {
             method: 'POST',
             mode: 'no-cors', // 'no-cors' વાપરવાથી "Failed to fetch" એરર નહીં આવે
             cache: 'no-cache',
             headers: { 'Content-Type': 'text/plain' },
-            body: JSON.stringify(appState)
+            body: JSON.stringify(syncState)
         });
         
         // no-cors મોડમાં આપણે સર્વરનો જવાબ વાંચી શકતા નથી, 
@@ -1611,7 +1624,7 @@ async function importFromGoogleSheets() {
                     }
                     if (cloudData.rentPayments) {
                         cloudData.rentPayments.forEach(rp => {
-                            rp.monthYear = cleanDateString(rp.monthYear); // Will become YYYY-MM-DD, then formatDisplayMonth extracts YYYY-MM
+                            rp.monthYear = parseFormattedMonth(rp.monthYear);
                             rp.datePaid = cleanDateString(rp.datePaid);
                         });
                     }
@@ -1642,7 +1655,7 @@ async function importFromGoogleSheets() {
                     }
                     if (cloudData.milkBills) {
                         cloudData.milkBills.forEach(mb => {
-                            mb.monthYear = cleanDateString(mb.monthYear); // Will become YYYY-MM-DD, then formatDisplayMonth extracts YYYY-MM
+                            mb.monthYear = parseFormattedMonth(mb.monthYear);
                             mb.datePaid = cleanDateString(mb.datePaid);
                         });
                     }
@@ -2480,6 +2493,57 @@ function cleanDateString(dateStr) {
         return dateStr.split('T')[0];
     }
     return dateStr;
+}
+
+// Parse formatted month string (e.g., "મે 2026" or "May 2026" or "2026-05-31") back to "YYYY-MM"
+function parseFormattedMonth(displayStr) {
+    if (!displayStr) return "";
+    displayStr = String(displayStr).trim();
+    
+    // Case 1: Standard YYYY-MM-DD or YYYY-MM
+    if (/^\d{4}-\d{2}/.test(displayStr)) {
+        return displayStr.substring(0, 7);
+    }
+    
+    // Case 2: Standard DD/MM/YYYY
+    if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(displayStr)) {
+        const parts = displayStr.split("/");
+        return `${parts[2]}-${parts[1].padStart(2, '0')}`;
+    }
+    
+    // Case 3: "Month Year" (e.g., "મે 2026" or "May 2026" or "જાન્યુઆરી 2024")
+    const monthsGu = ["જાન્યુઆરી", "ફેબ્રુઆરી", "માર્ચ", "એપ્રિલ", "મે", "જૂન", "જુલાઈ", "ઓગસ્ટ", "સપ્ટેમ્બર", "ઓક્ટોબર", "નવેમ્બર", "ડિસેમ્બર"];
+    const monthsEn = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const monthsEnFull = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    
+    const parts = displayStr.split(/\s+/);
+    if (parts.length >= 2) {
+        let monthName = parts[0];
+        let yearStr = parts[1];
+        
+        if (/^\d{4}$/.test(parts[0])) {
+            yearStr = parts[0];
+            monthName = parts[1];
+        }
+        
+        let mIdx = -1;
+        mIdx = monthsGu.indexOf(monthName);
+        
+        if (mIdx === -1) {
+            mIdx = monthsEn.findIndex(m => monthName.toLowerCase().startsWith(m.toLowerCase()));
+        }
+        
+        if (mIdx === -1) {
+            mIdx = monthsEnFull.findIndex(m => monthName.toLowerCase() === m.toLowerCase());
+        }
+        
+        if (mIdx !== -1 && /^\d{4}$/.test(yearStr)) {
+            const mm = String(mIdx + 1).padStart(2, '0');
+            return `${yearStr}-${mm}`;
+        }
+    }
+    
+    return displayStr;
 }
 
 // Event Listeners Setup
