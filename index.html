@@ -150,6 +150,8 @@
                 </div>
                 <div class="header-actions">
                     <div style="display: flex; align-items: center; gap: 15px;">
+                        <!-- Auto-sync status dot -->
+                        <span id="auto-sync-indicator" title="Google Sheet Sync" style="display:none; width:11px; height:11px; border-radius:50%; background:#22c55e; box-shadow:0 0 6px currentColor; cursor:pointer; flex-shrink:0; transition: background 0.3s;" onclick="syncToGoogleSheets()"></span>
                         <span id="current-date-display" style="font-weight: 600; font-size: 14px; color: var(--accent-blue);"></span>
                         <button class="btn-icon-label btn-accent" onclick="openAddDailyModal()">
                             <i class="fa-solid fa-plus"></i>
