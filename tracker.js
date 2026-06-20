@@ -1375,7 +1375,7 @@ function exportRentToExcel() {
         const house = appState.houses.find(h => h.id === p.houseId);
         // Full house name for clarity in spreadsheet
         const houseName = house ? house.name : `House ${p.houseId}`;
-        const row = [houseName, formatDisplayDate(p.monthYear), p.amount, formatDisplayDate(p.datePaid), p.paymentMode, p.status, p.note || ""];
+        const row = [houseName, formatDisplayMonth(p.monthYear), p.amount, formatDisplayDate(p.datePaid), p.paymentMode, p.status, p.note || ""];
         csvContent += row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",") + "\n";
     });
     downloadCSV(csvContent, lang === "gu" ? "ભાડા_ચુકવણી_હિસ્ટ્રી" : "Rent_Payment_History");
@@ -1443,7 +1443,7 @@ function exportMilkToExcel() {
     const mainHouse = appState.houses.find(h => h.id === 1);
     const mainHouseName = mainHouse ? mainHouse.name : "533/1, 5B, Gandhinagar";
     sorted.forEach(m => {
-        const row = [mainHouseName, formatDisplayDate(m.monthYear), m.vendorName, m.liters, m.rate, m.amount, formatDisplayDate(m.datePaid), m.note || ""];
+        const row = [mainHouseName, formatDisplayMonth(m.monthYear), m.vendorName, m.liters, m.rate, m.amount, formatDisplayDate(m.datePaid), m.note || ""];
         csvContent += row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",") + "\n";
     });
     downloadCSV(csvContent, lang === "gu" ? "દૂધ_બિલ_હિસ્ટ્રી" : "Milk_Bills_History");
@@ -2035,7 +2035,7 @@ function openEditPropTaxModal(id) {
     document.getElementById("proptax-tenament").value = t.tenamentNo;
     document.getElementById("proptax-year").value = t.year;
     document.getElementById("proptax-amount").value = t.amount;
-    document.getElementById("proptax-pay-date").value = t.datePaid;
+    document.getElementById("proptax-pay-date").value = cleanDateString(t.datePaid);
     document.getElementById("proptax-ref-no").value = t.refNo;
     document.getElementById("proptax-notes").value = t.note;
     document.getElementById("modal-add-proptax-title").textContent = appState.lang === "gu" ? "ઘર વેરો એડિટ કરો" : "Edit Property Tax";
@@ -2050,7 +2050,7 @@ function openEditWaterTaxModal(id) {
     document.getElementById("watertax-customer").value = w.customerNo;
     document.getElementById("watertax-year").value = w.year;
     document.getElementById("watertax-amount").value = w.amount;
-    document.getElementById("watertax-pay-date").value = w.datePaid;
+    document.getElementById("watertax-pay-date").value = cleanDateString(w.datePaid);
     document.getElementById("watertax-ref-no").value = w.refNo;
     document.getElementById("watertax-notes").value = w.note;
     document.getElementById("modal-add-watertax-title").textContent = appState.lang === "gu" ? "પાણી વેરો એડિટ કરો" : "Edit Water Tax";
@@ -2066,7 +2066,7 @@ function openEdit533BillModal(id, source) {
         document.getElementById("torrent-customer").value = b.customerId;
         document.getElementById("torrent-period").value = b.period;
         document.getElementById("torrent-amount").value = b.amount;
-        document.getElementById("torrent-pay-date").value = b.datePaid;
+        document.getElementById("torrent-pay-date").value = cleanDateString(b.datePaid);
         document.getElementById("torrent-ref-no").value = b.refNo;
         document.getElementById("torrent-notes").value = b.note;
         document.getElementById("modal-add-torrent-title").textContent = "Torrent Bill Edit";
@@ -2079,7 +2079,7 @@ function openEdit533BillModal(id, source) {
         document.getElementById("gas-customer").value = b.customerNo;
         document.getElementById("gas-period").value = b.period;
         document.getElementById("gas-amount").value = b.amount;
-        document.getElementById("gas-pay-date").value = b.datePaid;
+        document.getElementById("gas-pay-date").value = cleanDateString(b.datePaid);
         document.getElementById("gas-ref-no").value = b.refNo;
         document.getElementById("gas-notes").value = b.note;
         document.getElementById("modal-add-gas-title").textContent = "Gas Bill Edit";
@@ -2096,7 +2096,7 @@ function openEditUgvclModal(id) {
     document.getElementById("ugvcl-consumer").value = u.consumerNo;
     document.getElementById("ugvcl-period").value = u.period;
     document.getElementById("ugvcl-amount").value = u.amount;
-    document.getElementById("ugvcl-pay-date").value = u.datePaid;
+    document.getElementById("ugvcl-pay-date").value = cleanDateString(u.datePaid);
     document.getElementById("ugvcl-paid-by").value = u.paidBy;
     document.getElementById("ugvcl-ref-no").value = u.refNo;
     document.getElementById("ugvcl-notes").value = u.note;
@@ -2110,8 +2110,8 @@ function openEditMilkModal(id) {
     if (!m) return;
     currentMilkEditId = id;
     document.getElementById("milk-vendor").value = m.vendorName;
-    document.getElementById("milk-pay-month").value = m.monthYear;
-    document.getElementById("milk-pay-date").value = m.datePaid;
+    document.getElementById("milk-pay-month").value = cleanDateString(m.monthYear).substring(0, 7);
+    document.getElementById("milk-pay-date").value = cleanDateString(m.datePaid);
     document.getElementById("milk-liters").value = m.liters;
     document.getElementById("milk-rate").value = m.rate;
     document.getElementById("milk-amount").value = m.amount;
@@ -2125,7 +2125,7 @@ function openEditDailyModal(id) {
     const d = appState.dailyExpenses.find(exp => exp.id === id);
     if (!d) return;
     currentDailyEditId = id;
-    document.getElementById("daily-date").value = d.date;
+    document.getElementById("daily-date").value = cleanDateString(d.date);
     document.getElementById("daily-desc").value = d.description;
     document.getElementById("daily-category").value = d.category;
     document.getElementById("daily-amount").value = d.amount;
@@ -2399,9 +2399,9 @@ function openEditRentModal(id) {
         document.getElementById("rent-tenant-phone").value = house.tenantPhone || "";
     }
 
-    document.getElementById("rent-pay-month").value = p.monthYear;
+    document.getElementById("rent-pay-month").value = cleanDateString(p.monthYear).substring(0, 7);
     document.getElementById("rent-amount").value = p.amount;
-    document.getElementById("rent-pay-date").value = p.datePaid;
+    document.getElementById("rent-pay-date").value = cleanDateString(p.datePaid);
     document.getElementById("rent-pay-mode").value = p.paymentMode;
     document.getElementById("rent-pay-status").value = p.status;
     document.getElementById("rent-notes").value = p.note;
@@ -2415,7 +2415,7 @@ function openEditBobModal(id) {
     if (!transaction) return;
 
     document.getElementById("bob-form").reset();
-    document.getElementById("bob-date").value = transaction.date;
+    document.getElementById("bob-date").value = cleanDateString(transaction.date);
     document.getElementById("bob-narration").value = transaction.narration;
     document.getElementById("bob-amount").value = transaction.amount;
     document.getElementById("bob-desc").value = transaction.description;
