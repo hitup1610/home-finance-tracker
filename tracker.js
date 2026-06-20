@@ -326,7 +326,7 @@ const DEFAULT_STATE = {
         { id: 3, date: "2024-01-01", name: "733, Vah, Kolavada", tenamentNo: "1007C101208", ugvclConsumerNo: "26919004879", tenantName: "", tenantPhone: "", rentAmount: 0, depositAmount: 0, depositStatus: "unpaid", status: "vacant" },
         { id: 4, date: "2024-01-01", name: "81, Hudco, Kolavada", tenamentNo: "1007C100824", ugvclConsumerNo: "26919105284", tenantName: "", tenantPhone: "", rentAmount: 0, depositAmount: 0, depositStatus: "unpaid", status: "vacant" }
     ],
-    googleSheetUrl: "https://script.google.com/macros/s/AKfycbz7g0-_NDY-lUbqi_uw2nwr_TDLDVa9LkxZC9oz2ZGV6lr-AEggjr5mp2az1Isu7VWe/exec",
+    googleSheetUrl: "https://script.google.com/macros/s/AKfycbwOdO55SFljjPM5-hUNv5R7DSgQIf6tYcTvWrzXmH0QO_PHZmKbGQDTfvDmSYGNdNpf/exec",
     rentPayments: [
         // Samples removed to prevent old history from reappearing
     ],
@@ -398,9 +398,12 @@ function initApp() {
             if (!appState.transactions) appState.transactions = [];
             
             // જો બ્રાઉઝરમાં જૂની URL સેવ થયેલી હોય, તો તેને નવી URL થી ફોર્સ અપડેટ કરવી
-            const oldUrl = "https://script.google.com/macros/s/AKfycbzi36UWtO2dMO9ynaZgONYzA_Dukfc4RDm_xBJiD9Frkl9sanC5O5tV3OUuqRcYD3Pl9Q/exec";
-            if (!appState.googleSheetUrl || appState.googleSheetUrl === oldUrl) {
-                appState.googleSheetUrl = "https://script.google.com/macros/s/AKfycbz7g0-_NDY-lUbqi_uw2nwr_TDLDVa9LkxZC9oz2ZGV6lr-AEggjr5mp2az1Isu7VWe/exec";
+            const oldUrl1 = "https://script.google.com/macros/s/AKfycbzi36UWtO2dMO9ynaZgONYzA_Dukfc4RDm_xBJiD9Frkl9sanC5O5tV3OUuqRcYD3Pl9Q/exec";
+            const oldUrl2 = "https://script.google.com/macros/s/AKfycbz7g0-_NDY-lUbqi_uw2nwr_TDLDVa9LkxZC9oz2ZGV6lr-AEggjr5mp2az1Isu7VWe/exec";
+            const newDefaultUrl = "https://script.google.com/macros/s/AKfycbwOdO55SFljjPM5-hUNv5R7DSgQIf6tYcTvWrzXmH0QO_PHZmKbGQDTfvDmSYGNdNpf/exec";
+            
+            if (!appState.googleSheetUrl || appState.googleSheetUrl === oldUrl1 || appState.googleSheetUrl === oldUrl2) {
+                appState.googleSheetUrl = newDefaultUrl;
             }
             
             // Sync BOB Transactions list
