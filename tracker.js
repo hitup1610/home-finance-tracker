@@ -372,7 +372,7 @@ let currentDailyEditId = null;
 let currentBobEditId = null;
 
 // Initialize State with Backward Compatibility and Migration
-function initApp() {
+async function initApp() {
     // સાઈટ લોડ થાય ત્યારે લોગિન સ્ક્રીન છુપાવી દેવી જેથી બીજા ટેબ ખુલે
     document.getElementById("login-screen").style.display = "none";
 
@@ -440,15 +440,18 @@ function initApp() {
             appState = JSON.parse(JSON.stringify(DEFAULT_STATE));
         }
     } else {
+        // *** NEW DEVICE / FRESH BROWSER: localStorage ખાલી છે ***
+        // Default state set કરો (houses config સાથે)
         appState = JSON.parse(JSON.stringify(DEFAULT_STATE));
-        saveState();
+        
+        // Google Sheets માંથી automatically data load કરો
+        await autoLoadFromGoogleSheets();
     }
     
     // Set active language
     setLanguage(appState.lang || "gu");
     
     // Set active navigation tab (default: Dashboard)
-    console.log("initApp: appState after loading/merging:", appState); // Add this for debugging
     switchTab("dashboard");
     
     // Setup Event Listeners
@@ -456,6 +459,128 @@ function initApp() {
     
     // Populate select dropdowns for houses dynamically
     populateHouseDropdowns();
+}
+
+// નવા device પર automatically Google Sheets માંથી data load કરવા
+async function autoLoadFromGoogleSheets() {
+    const url = DEFAULT_STATE.googleSheetUrl;
+    if (!url) return;
+    
+    // Loading overlay બતાવો
+    showLoadingOverlay(true, appState.lang === 'gu' 
+        ? '🔄 Google Sheet માંથી ડેટા લોડ થઈ રહ્યો છે...'
+        : '🔄 Loading data from Google Sheet...');
+    
+    try {
+        const fetchUrl = url + (url.includes('?') ? '&' : '?') + 't=' + Date.now();
+        const response = await fetch(fetchUrl, { method: 'GET' });
+        
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        
+        const cloudData = await response.json();
+        
+        if (cloudData && typeof cloudData === 'object' && Object.keys(cloudData).length > 0 && cloudData.success !== false) {
+            // Date strings clean up
+            if (cloudData.houses) cloudData.houses.forEach(h => { h.date = cleanDateString(h.date); });
+            if (cloudData.rentPayments) {
+                cloudData.rentPayments.forEach(rp => {
+                    rp.monthYear = parseFormattedMonth(rp.monthYear);
+                    rp.datePaid = cleanDateString(rp.datePaid);
+                });
+            }
+            if (cloudData.propertyTaxes) cloudData.propertyTaxes.forEach(pt => { pt.datePaid = cleanDateString(pt.datePaid); });
+            if (cloudData.waterTaxes) cloudData.waterTaxes.forEach(wt => { wt.datePaid = cleanDateString(wt.datePaid); });
+            if (cloudData.torrentBills) cloudData.torrentBills.forEach(tb => { tb.datePaid = cleanDateString(tb.datePaid); });
+            if (cloudData.gasBills) cloudData.gasBills.forEach(gb => { gb.datePaid = cleanDateString(gb.datePaid); });
+            if (cloudData.ugvclBills) cloudData.ugvclBills.forEach(ub => { ub.datePaid = cleanDateString(ub.datePaid); });
+            if (cloudData.milkBills) {
+                cloudData.milkBills.forEach(mb => {
+                    mb.monthYear = parseFormattedMonth(mb.monthYear);
+                    mb.datePaid = cleanDateString(mb.datePaid);
+                });
+            }
+            if (cloudData.dailyExpenses) cloudData.dailyExpenses.forEach(de => { de.date = cleanDateString(de.date); });
+            if (cloudData.bobTransactions) cloudData.bobTransactions.forEach(bt => { bt.date = cleanDateString(bt.date); });
+            
+            // Merge cloudData into appState
+            Object.keys(cloudData).forEach(key => {
+                if (Array.isArray(cloudData[key])) {
+                    if (key === 'houses') {
+                        cloudData[key].forEach(h => { if (!h.date) h.date = new Date().toISOString().split('T')[0]; });
+                    }
+                    cloudData[key].forEach(item => {
+                        if (item.amount !== undefined) item.amount = Number(item.amount);
+                        if (item.rentAmount !== undefined) item.rentAmount = Number(item.rentAmount);
+                        if (item.depositAmount !== undefined) item.depositAmount = Number(item.depositAmount);
+                        if (item.id !== undefined && key === 'houses') item.id = Number(item.id);
+                        if (item.houseId !== undefined) item.houseId = Number(item.houseId);
+                        if (item.rate !== undefined) item.rate = Number(item.rate);
+                        if (item.liters !== undefined) item.liters = Number(item.liters);
+                    });
+                    appState[key] = cloudData[key];
+                } else if (typeof cloudData[key] !== 'object') {
+                    // Primitive values (lang, googleSheetUrl, etc.) - only set if not already set
+                    if (appState[key] === undefined || appState[key] === null) {
+                        appState[key] = cloudData[key];
+                    }
+                }
+            });
+            
+            // Always use the correct URL
+            appState.googleSheetUrl = DEFAULT_STATE.googleSheetUrl;
+            
+            // Save to local storage so next load is instant
+            localStorage.setItem("hitesh_home_finance_state", JSON.stringify(appState));
+            console.log("✅ Auto-loaded data from Google Sheets on new device.");
+        }
+    } catch (err) {
+        console.warn("Could not auto-load from Google Sheets:", err);
+        // ના ચાલ્યું — ખાલી default state સાથે start
+    } finally {
+        showLoadingOverlay(false);
+    }
+}
+
+// Loading overlay show/hide
+function showLoadingOverlay(show, message) {
+    let overlay = document.getElementById('app-loading-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'app-loading-overlay';
+        overlay.style.cssText = `
+            position: fixed; inset: 0; z-index: 9999;
+            background: rgba(10,12,24,0.92);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            font-family: 'Outfit', sans-serif; color: #fff;
+            backdrop-filter: blur(6px);
+            transition: opacity 0.4s ease;
+        `;
+        overlay.innerHTML = `
+            <div style="text-align:center;">
+                <div style="font-size:48px; margin-bottom:16px;">📊</div>
+                <div id="app-loading-msg" style="font-size:18px; font-weight:600; margin-bottom:12px;"></div>
+                <div style="width:200px; height:4px; background:rgba(255,255,255,0.15); border-radius:4px; overflow:hidden; margin:0 auto;">
+                    <div style="height:100%; background:linear-gradient(90deg,#6366f1,#8b5cf6); border-radius:4px; animation: loadbar 2s ease-in-out infinite;"></div>
+                </div>
+                <p style="margin-top:14px; font-size:13px; color:rgba(255,255,255,0.5);">Google Sheet સાથે જોડાઈ રહ્યા છીએ...</p>
+            </div>
+            <style>
+                @keyframes loadbar {
+                    0%{width:0%} 50%{width:80%} 100%{width:100%}
+                }
+            </style>
+        `;
+        document.body.appendChild(overlay);
+    }
+    if (show) {
+        document.getElementById('app-loading-msg').textContent = message || 'Loading...';
+        overlay.style.display = 'flex';
+        overlay.style.opacity = '1';
+    } else {
+        overlay.style.opacity = '0';
+        setTimeout(() => { overlay.style.display = 'none'; }, 400);
+    }
 }
 
 // Handle Login Logic
