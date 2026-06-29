@@ -449,7 +449,7 @@ async function initApp() {
     await autoLoadFromGoogleSheets();
     
     // Set active language
-    setLanguage(appState.lang || "gu");
+    setLanguage(appState.lang || "gu", false);
     
     // Set active navigation tab (default: Dashboard)
     switchTab("dashboard");
@@ -505,10 +505,15 @@ async function autoLoadFromGoogleSheets() {
             // Merge cloudData into appState
             Object.keys(cloudData).forEach(key => {
                 if (Array.isArray(cloudData[key])) {
+                    // ગૂગલ શીટની ખાલી રો (blank rows) ને ફિલ્ટર કરો (જેમાં id ખાલી હોય)
+                    let validItems = cloudData[key].filter(item => {
+                        return item && item.id !== undefined && String(item.id).trim() !== "";
+                    });
+
                     if (key === 'houses') {
-                        cloudData[key].forEach(h => { if (!h.date) h.date = new Date().toISOString().split('T')[0]; });
+                        validItems.forEach(h => { if (!h.date) h.date = new Date().toISOString().split('T')[0]; });
                     }
-                    cloudData[key].forEach(item => {
+                    validItems.forEach(item => {
                         if (item.amount !== undefined) item.amount = Number(item.amount);
                         if (item.rentAmount !== undefined) item.rentAmount = Number(item.rentAmount);
                         if (item.depositAmount !== undefined) item.depositAmount = Number(item.depositAmount);
@@ -517,7 +522,7 @@ async function autoLoadFromGoogleSheets() {
                         if (item.rate !== undefined) item.rate = Number(item.rate);
                         if (item.liters !== undefined) item.liters = Number(item.liters);
                     });
-                    appState[key] = cloudData[key];
+                    appState[key] = validItems;
                 } else if (typeof cloudData[key] !== 'object') {
                     // Primitive values (lang, googleSheetUrl, etc.) - only set if not already set
                     if (appState[key] === undefined || appState[key] === null) {
@@ -695,9 +700,9 @@ async function silentSyncToGoogleSheets() {
 }
 
 // Set Active Language
-function setLanguage(lang) {
+function setLanguage(lang, save = true) {
     appState.lang = lang;
-    saveState();
+    if (save) saveState();
     
     // Update active state on language switcher buttons
     document.querySelectorAll(".lang-toggle-btn").forEach(btn => {
