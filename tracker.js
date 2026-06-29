@@ -1321,7 +1321,9 @@ function renderUtilities() {
                 ? `<span class="badge-status paid">${TRANSLATIONS[appState.lang].billPower}</span>`
                 : `<span class="badge-status partial">${TRANSLATIONS[appState.lang].billGas}</span>`;
             
-            const custNo = b.source === "torrent" ? b.customerId : b.customerNo;
+            const custNo = b.source === "torrent" 
+                ? (b.customerId || "1007968") 
+                : (b.customerNo || "500000270187");
 
             row.innerHTML = `
                 <td>${typeText}</td>
@@ -2317,7 +2319,7 @@ function openEdit533BillModal(id, source) {
         const b = appState.torrentBills.find(bill => bill.id === id);
         if (!b) return;
         currentTorrentEditId = id;
-        document.getElementById("torrent-customer").value = b.customerId;
+        document.getElementById("torrent-customer").value = b.customerId || "1007968";
         document.getElementById("torrent-period").value = b.period;
         document.getElementById("torrent-amount").value = b.amount;
         document.getElementById("torrent-pay-date").value = cleanDateString(b.datePaid);
@@ -2330,7 +2332,7 @@ function openEdit533BillModal(id, source) {
         const b = appState.gasBills.find(bill => bill.id === id);
         if (!b) return;
         currentGasEditId = id;
-        document.getElementById("gas-customer").value = b.customerNo;
+        document.getElementById("gas-customer").value = b.customerNo || "500000270187";
         document.getElementById("gas-period").value = b.period;
         document.getElementById("gas-amount").value = b.amount;
         document.getElementById("gas-pay-date").value = cleanDateString(b.datePaid);
