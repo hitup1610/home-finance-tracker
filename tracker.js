@@ -619,21 +619,27 @@ function handleLogin() {
 // Auto-sync debounce timer
 let _autoSyncTimer = null;
 
-function saveState() {
+function saveState(immediate = false) {
     localStorage.setItem("hitesh_home_finance_state", JSON.stringify(appState));
-    // Debounced silent background sync to Google Sheets (5 second delay)
-    scheduleAutoSync();
+    // Debounced silent background sync to Google Sheets (1 second delay by default, or immediate)
+    scheduleAutoSync(immediate);
 }
 
 // Schedule a background silent sync to Google Sheets
-function scheduleAutoSync() {
+function scheduleAutoSync(immediate = false) {
     if (!appState.googleSheetUrl) return;
     if (_autoSyncTimer) clearTimeout(_autoSyncTimer);
+    
     // Show syncing indicator
     showSyncStatus('pending');
-    _autoSyncTimer = setTimeout(() => {
+    
+    if (immediate) {
         silentSyncToGoogleSheets();
-    }, 5000);
+    } else {
+        _autoSyncTimer = setTimeout(() => {
+            silentSyncToGoogleSheets();
+        }, 1000); // 1 second delay
+    }
 }
 
 // Show sync status indicator
@@ -658,6 +664,7 @@ function showSyncStatus(status) {
 
 // Silent background sync (no alerts, no button state changes)
 async function silentSyncToGoogleSheets() {
+    _autoSyncTimer = null;
     const currentUrl = appState.googleSheetUrl;
     if (!currentUrl) return;
     try {
@@ -1201,7 +1208,7 @@ function closeRentHistory() {
 function deleteRentRecord(payId) {
     if (confirm(appState.lang === "gu" ? "ખરેખર આ રેકોર્ડ રદ કરવો છે?" : "Are you sure you want to delete this record?")) {
         appState.rentPayments = appState.rentPayments.filter(p => p.id !== payId);
-        saveState();
+        saveState(true);
         renderRentHistoryTable();
         renderDashboard();
     }
@@ -1276,7 +1283,7 @@ function renderTaxes() {
 function deletePropertyTax(id) {
     if (confirm(appState.lang === "gu" ? "ઘરવેરો કાઢી નાખવો છે?" : "Delete this property tax log?")) {
         appState.propertyTaxes = appState.propertyTaxes.filter(t => t.id !== id);
-        saveState();
+        saveState(true);
         renderTaxes();
         renderDashboard();
     }
@@ -1285,7 +1292,7 @@ function deletePropertyTax(id) {
 function deleteWaterTax(id) {
     if (confirm(appState.lang === "gu" ? "પાણી વેરો કાઢી નાખવો છે?" : "Delete this water tax log?")) {
         appState.waterTaxes = appState.waterTaxes.filter(w => w.id !== id);
-        saveState();
+        saveState(true);
         renderTaxes();
         renderDashboard();
     }
@@ -1377,7 +1384,7 @@ function delete533Bill(id, source) {
         } else {
             appState.gasBills = appState.gasBills.filter(b => b.id !== id);
         }
-        saveState();
+        saveState(true);
         renderUtilities();
         renderDashboard();
     }
@@ -1386,7 +1393,7 @@ function delete533Bill(id, source) {
 function deleteUgvclBill(id) {
     if (confirm(appState.lang === "gu" ? "UGVCL બિલ રેકોર્ડ કાઢી નાખવો છે?" : "Delete this UGVCL record?")) {
         appState.ugvclBills = appState.ugvclBills.filter(u => u.id !== id);
-        saveState();
+        saveState(true);
         renderUtilities();
         renderDashboard();
     }
@@ -1431,7 +1438,7 @@ function renderMilk() {
 function deleteMilkRecord(milkId) {
     if (confirm(appState.lang === "gu" ? "ખરેખર આ દૂધ પેમેન્ટ હિસ્ટ્રી કાઢી નાખવી છે?" : "Are you sure you want to delete this milk bill record?")) {
         appState.milkBills = appState.milkBills.filter(m => m.id !== milkId);
-        saveState();
+        saveState(true);
         renderMilk();
         renderDashboard();
     }
@@ -1476,7 +1483,7 @@ function renderDailyLedger() {
 function deleteDailyExpense(id) {
     if (confirm(appState.lang === "gu" ? "આ રોજિંદો ખર્ચ કાઢી નાખવો છે?" : "Delete this expense record?")) {
         appState.dailyExpenses = appState.dailyExpenses.filter(d => d.id !== id);
-        saveState();
+        saveState(true);
         renderDailyLedger();
         renderDashboard();
     }
@@ -1530,7 +1537,7 @@ function renderBob() {
 function deleteBobTransaction(id) {
     if (confirm(appState.lang === "gu" ? "આ ટ્રાન્ઝેક્શન કાઢી નાખવું છે?" : "Delete this bank transaction?")) {
         appState.bobTransactions = appState.bobTransactions.filter(t => t.id !== id);
-        saveState();
+        saveState(true);
         renderBob();
         renderDashboard();
     }
