@@ -496,7 +496,7 @@ async function autoLoadFromGoogleSheets() {
         const fetchUrl = url + (url.includes('?') ? '&' : '?') + 't=' + Date.now();
         const response = await fetch(fetchUrl, { method: 'GET' });
         
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        if (!response.ok) throw new Error(`HTTP status ${response.status}`);
         
         const cloudData = await response.json();
         
@@ -553,10 +553,16 @@ async function autoLoadFromGoogleSheets() {
             // Save to local storage so next load is instant
             localStorage.setItem("hitesh_home_finance_state", JSON.stringify(appState));
             console.log("✅ Auto-loaded data from Google Sheets on new device.");
+        } else {
+            const errorMsg = (cloudData && cloudData.error) ? cloudData.error : "Empty or invalid response from server";
+            throw new Error(errorMsg);
         }
     } catch (err) {
         console.warn("Could not auto-load from Google Sheets:", err);
-        // ના ચાલ્યું — ખાલી default state સાથે start
+        // Error display for debugging
+        alert(appState.lang === 'gu' 
+            ? 'ગૂગલ શીટમાંથી ડેટા લોડ કરવામાં નિષ્ફળતા: ' + err.message
+            : 'Failed to auto-load from Google Sheets: ' + err.message);
     } finally {
         showLoadingOverlay(false);
     }
