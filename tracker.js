@@ -377,7 +377,6 @@ async function initApp() {
     document.getElementById("login-screen").style.display = "none";
 
     const stored = localStorage.getItem("hitesh_home_finance_state");
-    let needsCloudLoad = false;
 
     if (stored) {
         try {
@@ -437,37 +436,17 @@ async function initApp() {
                     }
                 });
             }
-
-            // ચેક કરો કે ડેટા ખરેખર છે કે નહિ (જો બધો જ ડેટા ખાલી હોય, તો તે નવું/સ્ટાર્ટિંગ સ્ટેટ ગણાશે)
-            const isEmptyState = (!appState.rentPayments || appState.rentPayments.length === 0) &&
-                                 (!appState.propertyTaxes || appState.propertyTaxes.length === 0) &&
-                                 (!appState.waterTaxes || appState.waterTaxes.length === 0) &&
-                                 (!appState.torrentBills || appState.torrentBills.length === 0) &&
-                                 (!appState.gasBills || appState.gasBills.length === 0) &&
-                                 (!appState.ugvclBills || appState.ugvclBills.length === 0) &&
-                                 (!appState.milkBills || appState.milkBills.length === 0) &&
-                                 (!appState.dailyExpenses || appState.dailyExpenses.length === 0) &&
-                                 (!appState.bobTransactions || appState.bobTransactions.length === 0);
-            
-            if (isEmptyState) {
-                needsCloudLoad = true;
-            }
         } catch (e) {
             console.error("Error loading local storage state", e);
             appState = JSON.parse(JSON.stringify(DEFAULT_STATE));
-            needsCloudLoad = true;
         }
     } else {
         // *** NEW DEVICE / FRESH BROWSER: localStorage ખાલી છે ***
-        // Default state set કરો (houses config સાથે)
         appState = JSON.parse(JSON.stringify(DEFAULT_STATE));
-        needsCloudLoad = true;
     }
 
-    // જો લોકલ ડેટા ખાલી હોય તો જ ગુગલ શીટમાંથી ખેંચો
-    if (needsCloudLoad) {
-        await autoLoadFromGoogleSheets();
-    }
+    // હંમેશા ગુગલ શીટમાંથી લેટેસ્ટ ડેટા લોડ કરો (જેથી બધી સિસ્ટમ ઓટોમેટિકલી સિંક થાય)
+    await autoLoadFromGoogleSheets();
     
     // Set active language
     setLanguage(appState.lang || "gu");
@@ -559,10 +538,13 @@ async function autoLoadFromGoogleSheets() {
         }
     } catch (err) {
         console.warn("Could not auto-load from Google Sheets:", err);
-        // Error display for debugging
-        alert(appState.lang === 'gu' 
-            ? 'ગૂગલ શીટમાંથી ડેટા લોડ કરવામાં નિષ્ફળતા: ' + err.message
-            : 'Failed to auto-load from Google Sheets: ' + err.message);
+        // જો પહેલેથી લોકલ સ્ટોરેજમાં ડેટા હોય, તો એરર એલર્ટ ના બતાવો (સાઈલેન્ટ ફેઈલ), જેથી ઓફલાઈન પણ સાઈટ ખુલે
+        const stored = localStorage.getItem("hitesh_home_finance_state");
+        if (!stored) {
+            alert(appState.lang === 'gu' 
+                ? 'ગૂગલ શીટમાંથી ડેટા લોડ કરવામાં નિષ્ફળતા: ' + err.message
+                : 'Failed to auto-load from Google Sheets: ' + err.message);
+        }
     } finally {
         showLoadingOverlay(false);
     }
